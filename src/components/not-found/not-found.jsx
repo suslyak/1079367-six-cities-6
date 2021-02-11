@@ -6,7 +6,9 @@ const NotFound = () => {
     <div className="page page--gray">
       <Header />
       <main className="page__main">
-        404. Page not found.
+        <div className="container">
+          <b>404. Page not found.</b>
+        </div>
       </main>
     </div>
   );
