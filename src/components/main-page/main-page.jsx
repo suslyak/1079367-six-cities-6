@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceCard from '../place-card/place-card.jsx';
 import Header from '../header/header.jsx';
+import OffersList from '../offers-list/offers-list.jsx';
+import {PropValidation} from '../../const.js';
+
 
 const MainPage = (props) => {
-  const {placesCount} = props;
+  const {offers, reviews} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -67,9 +69,10 @@ const MainPage = (props) => {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {new Array(placesCount).fill(``).map((card, i) => <PlaceCard key={name + i} />)}
-              </div>
+              <OffersList
+                offers={offers}
+                reviews={reviews}
+              />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
@@ -82,7 +85,8 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
-  placesCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(PropValidation.OFFER),
+  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
 };
 
 export default MainPage;
