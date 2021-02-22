@@ -6,25 +6,34 @@ import Room from '../offer/offer.jsx';
 import SignIn from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import NotFound from '../not-found/not-found.jsx';
+import {PropValidation} from '../../const.js';
 
 
 const App = (props) => {
-  const {placesCount} = props;
+  const {offers, reviews} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage placesCount={placesCount} />
+          <MainPage
+            offers={offers}
+            reviews={reviews}
+          />
         </Route>
         <Route exact path="/login">
           <SignIn />
         </Route>
         <Route exact path="/offer/:id">
-          <Room />
+          <Room
+            offers={offers}
+            reviews={reviews}
+          />
         </Route>
         <Route exact path="/favorites">
-          <Favorites />
+          <Favorites
+            offers={offers.filter((offer) => offer.is_favorite)}
+          />
         </Route>
         <Route>
           <NotFound />
@@ -35,7 +44,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  placesCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(PropValidation.OFFER),
+  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
 };
 
 export default App;
