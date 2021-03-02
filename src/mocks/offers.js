@@ -22,8 +22,8 @@ export default [
     "is_favorite": false,
     "is_premium": false,
     "location": {
-      "latitude": 52.35514938496378,
-      "longitude": 4.673877537499948,
+      "latitude": 52.3909553943508,
+      "longitude": 4.85309666406198,
       "zoom": 8
     },
     "max_adults": 40,
@@ -56,8 +56,8 @@ export default [
     "is_favorite": true,
     "is_premium": false,
     "location": {
-      "latitude": 52.35814938496378,
-      "longitude": 4.683877537499948,
+      "latitude": 52.369553943508,
+      "longitude": 4.85309666406198,
       "zoom": 8
     },
     "max_adults": 10,
@@ -90,8 +90,8 @@ export default [
     "is_favorite": true,
     "is_premium": true,
     "location": {
-      "latitude": 52.35714938496378,
-      "longitude": 4.673877537499948,
+      "latitude": 52.3909553943508,
+      "longitude": 4.929309666406198,
       "zoom": 8
     },
     "max_adults": 1,
@@ -124,8 +124,8 @@ export default [
     "is_favorite": false,
     "is_premium": false,
     "location": {
-      "latitude": 52.3594938496378,
-      "longitude": 4.681877537499948,
+      "latitude": 52.3809553943508,
+      "longitude": 4.939309666406198,
       "zoom": 8
     },
     "max_adults": 2,

@@ -2,11 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../header/header.jsx';
 import OffersList from '../offers-list/offers-list.jsx';
-import {PropValidation} from '../../const.js';
+import Map from '../map/map.jsx';
+import {PropValidation, cityCoords} from '../../const.js';
 
 
 const MainPage = (props) => {
   const {offers, reviews} = props;
+  const points = offers.map((offer) => ({
+    "lat": offer.location.latitude,
+    "lng": offer.location.longitude,
+    "title": offer.title
+  }));
+  const city = {
+    "lat": cityCoords[0],
+    "lng": cityCoords[1],
+    "zoom": 12
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -75,7 +86,10 @@ const MainPage = (props) => {
               />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map
+                city={city}
+                points={points}
+              />
             </div>
           </div>
         </div>
