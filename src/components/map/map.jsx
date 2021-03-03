@@ -39,11 +39,11 @@ const Map = ({city, points}) => {
         title: point.title
       })
       .addTo(mapRef.current);
-
-      return () => {
-        mapRef.current.remove();
-      };
     });
+
+    return () => {
+      mapRef.current.remove();
+    };
   }, []);
 
   return (
