@@ -46,6 +46,18 @@ export const PropValidation = {
       "is_pro": PropTypes.bool.isRequired,
       "name": PropTypes.string.isRequired
     })
-  })
+  }),
+  "CITY": PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
+  }),
+  "POINTS": PropTypes.arrayOf(PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+  }))
 };
+
+export const cityCoords = [52.38333, 4.9];
 
