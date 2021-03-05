@@ -1,23 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
+import CitiesList from '../cities-list/cities-list.jsx';
 import OffersList from '../offers-list/offers-list.jsx';
 import Map from '../map/map.jsx';
-import {PropValidation, cityCoords} from '../../const.js';
+import {PropValidation} from '../../const.js';
 
 
 const MainPage = (props) => {
-  const {offers, reviews} = props;
-  const points = offers.map((offer) => ({
-    "lat": offer.location.latitude,
-    "lng": offer.location.longitude,
-    "title": offer.title
-  }));
-  const city = {
-    "lat": cityCoords[0],
-    "lng": cityCoords[1],
-    "zoom": 12
-  };
+  const {reviews, offers, city} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -26,38 +18,9 @@ const MainPage = (props) => {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <CitiesList
+              city={city}
+            />
           </section>
         </div>
         <div className="cities">
@@ -88,7 +51,7 @@ const MainPage = (props) => {
             <div className="cities__right-section">
               <Map
                 city={city}
-                points={points}
+                offers={offers}
               />
             </div>
           </div>
@@ -99,8 +62,14 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
+  city: PropValidation.CITY,
   offers: PropTypes.arrayOf(PropValidation.OFFER),
   reviews: PropTypes.arrayOf(PropValidation.REVIEW)
 };
 
-export default MainPage;
+const mapStateToProps = (state) => ({
+  city: state.city,
+});
+
+export {MainPage};
+export default connect(mapStateToProps, null)(MainPage);

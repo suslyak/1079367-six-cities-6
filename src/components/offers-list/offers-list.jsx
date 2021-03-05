@@ -5,7 +5,8 @@ import PlaceCard from '../place-card/place-card.jsx';
 
 const OffersList = (props) => {
   const {offers} = props;
-  const [currentCard, setCurrentCard] = React.useState(offers[0].id);
+  const initialCardId = offers.length ? offers[0].id : null;
+  const [currentCard, setCurrentCard] = React.useState(initialCardId);
 
   // Временно чтобы не ругался линтер
   const doSomethingWithState = () => {

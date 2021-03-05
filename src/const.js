@@ -48,16 +48,23 @@ export const PropValidation = {
     })
   }),
   "CITY": PropTypes.shape({
+    name: PropTypes.string.isRequired,
     lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-    zoom: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired
   }),
   "POINTS": PropTypes.arrayOf(PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   }))
 };
 
-export const cityCoords = [52.38333, 4.9];
+export const cities = {
+  "Paris": {name: `Paris`, coords: [48.86471, 2.35]},
+  "Cologne": {name: `Cologne`, coords: [50.93753, 6.96]},
+  "Brussels": {name: `Brussels`, coords: [50.85034, 4.35]},
+  "Amsterdam": {name: `Amsterdam`, coords: [52.38333, 4.9]},
+  "Hamburg": {name: `Hamburg`, coords: [53.55108, 10]},
+  "Dusseldorf": {name: `Dusseldorf`, coords: [51.22172, 6.77]}
+};
 
