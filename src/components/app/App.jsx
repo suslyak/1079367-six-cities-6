@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import MainPage from '../main-page/main-page.jsx';
 import Room from '../offer/offer.jsx';
@@ -48,4 +49,10 @@ App.propTypes = {
   reviews: PropTypes.arrayOf(PropValidation.REVIEW)
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offers: state.offers
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);
