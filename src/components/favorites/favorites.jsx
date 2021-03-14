@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
 import FavoritesList from './favorites-list.jsx';
 import {PropValidation} from '../../const.js';
@@ -49,7 +50,11 @@ const Favorites = (props) => {
 
 Favorites.propTypes = {
   offers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
 };
 
-export default Favorites;
+const mapStateToProps = (state) => ({
+  offers: state.offers
+});
+
+export {Favorites};
+export default connect(mapStateToProps, null)(Favorites);

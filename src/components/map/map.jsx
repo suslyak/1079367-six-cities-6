@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import leaflet from 'leaflet';
 
 import {PropValidation} from '../../const.js';
@@ -62,4 +63,10 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
-export default Map;
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offers: state.offers
+});
+
+export {Map};
+export default connect(mapStateToProps, null)(Map);

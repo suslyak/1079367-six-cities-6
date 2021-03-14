@@ -3,6 +3,7 @@ import {cities} from '../const.js';
 export const ActionType = {
   CHANGE_CITY: `/changeCity`,
   FILL_OFFERS_LIST: `/fillOffersList`,
+  LOAD_OFFERS: `data/loadOffers`,
 };
 
 export const ActionCreator = {
@@ -19,8 +20,12 @@ export const ActionCreator = {
       payload: newCity,
     };
   },
-  fillOffersList: (city) => ({
+  fillOffersList: (offers) => ({
     type: ActionType.FILL_OFFERS_LIST,
-    payload: city,
+    payload: offers,
+  }),
+  loadOffers: (offers) => ({
+    type: ActionType.LOAD_OFFERS,
+    payload: offers,
   })
 };

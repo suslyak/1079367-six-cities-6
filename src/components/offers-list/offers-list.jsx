@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {PropValidation} from '../../const.js';
 import PlaceCard from '../place-card/place-card.jsx';
+import {ActionCreator} from '../../store/action';
 
 const OffersList = (props) => {
-  const {offers} = props;
+  const {city, offers, allOffers, onLoadData} = props;
   const initialCardId = offers.length ? offers[0].id : null;
   const [currentCard, setCurrentCard] = React.useState(initialCardId);
 
@@ -14,6 +16,11 @@ const OffersList = (props) => {
   };
 
   doSomethingWithState();
+
+  useEffect(() => {
+    const cityOffers = allOffers.filter((offer) => offer.city.name === city.name);
+    onLoadData(cityOffers);
+  }, [city]);
 
   const handleCardMouseover = (id) => {
     setCurrentCard(id);
@@ -33,8 +40,24 @@ const OffersList = (props) => {
 };
 
 OffersList.propTypes = {
+  city: PropValidation.CITY,
   offers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
+  allOffers: PropTypes.arrayOf(PropValidation.OFFER),
+  reviews: PropTypes.arrayOf(PropValidation.REVIEW),
+  onLoadData: PropTypes.func.isRequired
 };
 
-export default OffersList;
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offers: state.offers,
+  allOffers: state.allOffers,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData(offers) {
+    dispatch(ActionCreator.fillOffersList(offers));
+  }
+});
+
+export {OffersList};
+export default connect(mapStateToProps, mapDispatchToProps)(OffersList);
