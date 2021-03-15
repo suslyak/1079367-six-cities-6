@@ -11,6 +11,7 @@ const initialState = {
     "zoom": 12
   },
   offers: [],
+  reviews: [],
   allOffers: [],
   isOffersLoaded: false
 };

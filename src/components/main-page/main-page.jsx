@@ -21,7 +21,25 @@ const MainPage = (props) => {
 
   if (!isOffersLoaded) {
     return (
-      <LoadingScreen />
+      <div className="page page--gray page--main">
+        <Header />
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="tabs">
+            <section className="locations container">
+              <CitiesList
+              />
+            </section>
+          </div>
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <LoadingScreen />
+              </section>
+            </div>
+          </div>
+        </main>
+      </div>
     );
   }
 

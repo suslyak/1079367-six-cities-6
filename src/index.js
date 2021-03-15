@@ -9,7 +9,9 @@ import App from './components/app/app';
 import reviews from './mocks/reviews.js';
 import {reducer} from './store/reducer';
 
-const api = createAPI();
+const api = createAPI(() => {
+  // Временная заглушка;
+});
 
 const store = createStore(
     reducer,

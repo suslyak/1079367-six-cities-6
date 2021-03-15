@@ -20,12 +20,12 @@ export const ActionCreator = {
       payload: newCity,
     };
   },
-  fillOffersList: (offers) => ({
+  fillOffersList: (data) => ({
     type: ActionType.FILL_OFFERS_LIST,
-    payload: offers,
+    payload: Array.isArray(data) ? data : [data]
   }),
-  loadOffers: (offers) => ({
+  loadOffers: (data) => ({
     type: ActionType.LOAD_OFFERS,
-    payload: offers,
+    payload: Array.isArray(data) ? data : [data]
   })
 };
