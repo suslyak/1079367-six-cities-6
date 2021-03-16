@@ -5,7 +5,8 @@ import {PropValidation, cities} from '../../const.js';
 import {ActionCreator} from '../../store/action';
 
 const CitiesList = (props) => {
-  const {city, changeCity, fillOffersList} = props;
+  const {city, changeCity} = props;
+
   return (
     <ul className="locations__list tabs__list">
       {Object.values(cities).map((item, i) =>
@@ -15,7 +16,6 @@ const CitiesList = (props) => {
             href="#"
             onClick={(evt) => {
               evt.preventDefault();
-              fillOffersList(item.name);
               changeCity(item.name);
             }
             }
@@ -30,21 +30,16 @@ const CitiesList = (props) => {
 
 CitiesList.propTypes = {
   city: PropValidation.CITY,
-  changeCity: PropTypes.func.isRequired,
-  fillOffersList: PropTypes.func.isRequired
+  changeCity: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   city: state.city,
-  offers: state.offers
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeCity(name) {
     dispatch(ActionCreator.changeCity(name));
-  },
-  fillOffersList(name) {
-    dispatch(ActionCreator.fillOffersList(name));
   },
 });
 

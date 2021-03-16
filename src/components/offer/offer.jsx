@@ -1,15 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
 import ReviewForm from '../review-form/review-form.jsx';
 import NearOffers from '../near-offers-list/near-offers-list.jsx';
 import PropTypes from 'prop-types';
 import {PropValidation} from '../../const.js';
+import {fetchOffer} from "../../store/api-actions";
+import LoadingScreen from '../loading-screen/loading-screen';
 
 const Offer = (props) => {
-  const {offers, reviews} = props;
+  const {offers, allOffers, reviews, onLoadData} = props;
+
+  // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
+
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
   const offer = offers.find((item) => item.id === offerId);
   const offerReviews = reviews.filter((review) => review.id === offerId);
+
+  useEffect(() => {
+    if (!offer) {
+      const storedOffer = allOffers.find((item) => item.id === offerId);
+      if (storedOffer) {
+        offer = storedOffer;
+      } else {
+        onLoadData(offerId);
+      }
+    }
+  }, [offers]);
+
+  if (!offer) {
+    return (
+      <div className="page">
+        <Header/>
+        <main className="page__main page__main--property">
+          <section className="property">
+            <LoadingScreen />
+          </section>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="page">
@@ -33,7 +63,7 @@ const Offer = (props) => {
           <div className="property__container container">
             <div className="property__wrapper">
               {offer.is_premium
-                ? <div className="place-card__mark">
+                ? <div className="property__mark">
                   <span>Premium</span>
                 </div>
                 : ``
@@ -103,7 +133,7 @@ const Offer = (props) => {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                {offerReviews
+                {offerReviews.length
                   ? <>
                     <h2 className="reviews__title">Reviews · <span className="reviews__amount">{offerReviews.length}</span></h2>
                     <ul className="reviews__list">
@@ -140,7 +170,7 @@ const Offer = (props) => {
                       })}
                     </ul>
                   </>
-                  : `<h2 className="reviews__title">No reviews of this place. Post the first one!</h2>`
+                  : <h2 className="reviews__title">No reviews of this place. Post the first one!</h2>
                 }
                 <ReviewForm />
               </section>
@@ -158,7 +188,23 @@ const Offer = (props) => {
 
 Offer.propTypes = {
   offers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
+  allOffers: PropTypes.arrayOf(PropValidation.OFFER),
+  reviews: PropTypes.arrayOf(PropValidation.REVIEW),
+  onLoadData: PropTypes.func.isRequired
 };
 
-export default Offer;
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offers: state.offers,
+  allOffers: state.allOffers,
+  reviews: state.reviews
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData(offerId) {
+    dispatch(fetchOffer(offerId));
+  }
+});
+
+export {Offer};
+export default connect(mapStateToProps, mapDispatchToProps)(Offer);

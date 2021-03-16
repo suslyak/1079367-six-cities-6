@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Header from '../header/header.jsx';
@@ -6,10 +6,42 @@ import CitiesList from '../cities-list/cities-list.jsx';
 import OffersList from '../offers-list/offers-list.jsx';
 import Map from '../map/map.jsx';
 import {PropValidation} from '../../const.js';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {fetchOffersList} from "../../store/api-actions";
 
 
 const MainPage = (props) => {
-  const {reviews, offers, city} = props;
+  const {reviews, isOffersLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    if (!isOffersLoaded) {
+      onLoadData();
+    }
+  }, [isOffersLoaded]);
+
+  if (!isOffersLoaded) {
+    return (
+      <div className="page page--gray page--main">
+        <Header />
+        <main className="page__main page__main--index">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="tabs">
+            <section className="locations container">
+              <CitiesList
+              />
+            </section>
+          </div>
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <LoadingScreen />
+              </section>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -19,7 +51,6 @@ const MainPage = (props) => {
         <div className="tabs">
           <section className="locations container">
             <CitiesList
-              city={city}
             />
           </section>
         </div>
@@ -44,14 +75,11 @@ const MainPage = (props) => {
                 </ul>
               </form>
               <OffersList
-                offers={offers}
                 reviews={reviews}
               />
             </section>
             <div className="cities__right-section">
               <Map
-                city={city}
-                offers={offers}
               />
             </div>
           </div>
@@ -62,14 +90,20 @@ const MainPage = (props) => {
 };
 
 MainPage.propTypes = {
-  city: PropValidation.CITY,
-  offers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW)
+  reviews: PropTypes.arrayOf(PropValidation.REVIEW),
+  isOffersLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  city: state.city,
+  isOffersLoaded: state.isOffersLoaded
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchOffersList());
+  }
 });
 
 export {MainPage};
-export default connect(mapStateToProps, null)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

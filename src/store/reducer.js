@@ -1,6 +1,5 @@
 import {ActionType} from './action';
 import {cities} from '../const.js';
-import offers from '../mocks/offers.js';
 
 const initialCity = cities[`Paris`];
 
@@ -11,7 +10,10 @@ const initialState = {
     "lng": initialCity.coords[1],
     "zoom": 12
   },
-  offers: offers.filter((offer) => offer.city.name === initialCity.name)
+  offers: [],
+  reviews: [],
+  allOffers: [],
+  isOffersLoaded: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,10 +24,17 @@ const reducer = (state = initialState, action) => {
         city: action.payload
       };
 
+    case ActionType.LOAD_OFFERS:
+      return {
+        ...state,
+        allOffers: action.payload,
+        isOffersLoaded: true
+      };
+
     case ActionType.FILL_OFFERS_LIST:
       return {
         ...state,
-        offers: offers.filter((offer) => offer.city.name === action.payload)
+        offers: action.payload
       };
 
     default:
