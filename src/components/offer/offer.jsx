@@ -14,8 +14,9 @@ const Offer = (props) => {
   // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
 
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
-  const offer = offers.find((item) => item.id === offerId);
   const offerReviews = reviews.filter((review) => review.id === offerId);
+
+  let offer = offers.find((item) => item.id === offerId);
 
   useEffect(() => {
     if (!offer) {
