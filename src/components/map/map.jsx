@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import leaflet from 'leaflet';
 
 import {PropValidation} from '../../const.js';
@@ -53,7 +52,7 @@ const Map = (props) => {
   }, [city, offers]);
 
   return (
-    <section id="map" ref={mapRef} className="cities__map map">
+    <section id="map" className="cities__map map">
     </section>
   );
 };
@@ -63,10 +62,5 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
-const mapStateToProps = (state) => ({
-  city: state.city,
-  offers: state.offers
-});
 
-export {Map};
-export default connect(mapStateToProps, null)(Map);
+export default Map;

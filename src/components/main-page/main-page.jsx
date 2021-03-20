@@ -11,7 +11,8 @@ import {fetchOffersList} from "../../store/api-actions";
 
 
 const MainPage = (props) => {
-  const {reviews, isOffersLoaded, onLoadData} = props;
+  const {city, allOffers, reviews, isOffersLoaded, onLoadData} = props;
+  const offers = allOffers.filter((offer) => offer.city.name === city.name);
 
   useEffect(() => {
     if (!isOffersLoaded) {
@@ -58,7 +59,7 @@ const MainPage = (props) => {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -76,10 +77,13 @@ const MainPage = (props) => {
               </form>
               <OffersList
                 reviews={reviews}
+                offers={offers}
               />
             </section>
             <div className="cities__right-section">
               <Map
+                city={city}
+                offers={offers}
               />
             </div>
           </div>
@@ -93,9 +97,13 @@ MainPage.propTypes = {
   reviews: PropTypes.arrayOf(PropValidation.REVIEW),
   isOffersLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
+  city: PropValidation.CITY,
+  allOffers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
 const mapStateToProps = (state) => ({
+  city: state.city,
+  allOffers: state.allOffers,
   isOffersLoaded: state.isOffersLoaded
 });
 
