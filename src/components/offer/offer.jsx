@@ -194,11 +194,11 @@ Offer.propTypes = {
   onLoadData: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  city: state.city,
-  offers: state.offers,
-  allOffers: state.allOffers,
-  reviews: state.reviews
+const mapStateToProps = ({CITY, OFFERS, REVIEWS}) => ({
+  city: CITY.city,
+  offers: OFFERS.offers,
+  allOffers: OFFERS.allOffers,
+  reviews: REVIEWS.reviews
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -101,10 +101,10 @@ MainPage.propTypes = {
   allOffers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
-const mapStateToProps = (state) => ({
-  city: state.city,
-  allOffers: state.allOffers,
-  isOffersLoaded: state.isOffersLoaded
+const mapStateToProps = ({CITY, OFFERS}) => ({
+  city: CITY.city,
+  allOffers: OFFERS.allOffers,
+  isOffersLoaded: OFFERS.isOffersLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({

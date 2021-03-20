@@ -7,14 +7,14 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import reviews from './mocks/reviews.js';
-import {reducer} from './store/reducer';
+import rootReducer from './store/root-reducer';
 
 const api = createAPI(() => {
   // Временная заглушка;
 });
 
 const store = createStore(
-    reducer,
+    rootReducer,
     composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
 );
 
