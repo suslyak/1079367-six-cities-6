@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {PropValidation, cities} from '../../const.js';
 import {changeCity} from '../../store/action';
+import {getCity} from '../../store/city/selector';
 
 const CitiesList = (props) => {
   const {city, handleChangeCity} = props;
@@ -33,8 +34,8 @@ CitiesList.propTypes = {
   handleChangeCity: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({CITY}) => ({
-  city: CITY.city,
+const mapStateToProps = (state) => ({
+  city: getCity(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

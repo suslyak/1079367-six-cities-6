@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import {PropValidation} from '../../const.js';
 import {fetchOffer} from "../../store/api-actions";
 import LoadingScreen from '../loading-screen/loading-screen';
+import {getAllOffers, getOffers} from '../../store/offers/selector';
+import {getReviews} from '../../store/reviews/selector';
 
 const Offer = (props) => {
   const {offers, allOffers, reviews, onLoadData} = props;
@@ -194,11 +196,10 @@ Offer.propTypes = {
   onLoadData: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({CITY, OFFERS, REVIEWS}) => ({
-  city: CITY.city,
-  offers: OFFERS.offers,
-  allOffers: OFFERS.allOffers,
-  reviews: REVIEWS.reviews
+const mapStateToProps = (state) => ({
+  offers: getOffers(state),
+  allOffers: getAllOffers(state),
+  reviews: getReviews(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
