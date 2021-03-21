@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
 import OffersList from '../offers-list/offers-list.jsx';
@@ -8,17 +8,19 @@ import Map from '../map/map.jsx';
 import {PropValidation} from '../../const.js';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchOffersList} from '../../store/api-actions';
-import {getCity} from '../../store/city/selector';
-import {getAllOffers, getIsOffersLoaded} from '../../store/offers/selector';
 
 
 const MainPage = (props) => {
-  const {city, allOffers, reviews, isOffersLoaded, onLoadData} = props;
+  const {reviews} = props;
+  const {city} = useSelector((state) => state.CITY);
+  const {allOffers, isOffersLoaded} = useSelector((state) => state.OFFERS);
   const offers = allOffers.filter((offer) => offer.city.name === city.name);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isOffersLoaded) {
-      onLoadData();
+      dispatch(fetchOffersList());
     }
   }, [isOffersLoaded]);
 
@@ -97,23 +99,6 @@ const MainPage = (props) => {
 
 MainPage.propTypes = {
   reviews: PropTypes.arrayOf(PropValidation.REVIEW),
-  isOffersLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-  city: PropValidation.CITY,
-  allOffers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
-const mapStateToProps = (state) => ({
-  city: getCity(state),
-  allOffers: getAllOffers(state),
-  isOffersLoaded: getIsOffersLoaded(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
-    dispatch(fetchOffersList());
-  }
-});
-
-export {MainPage};
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default MainPage;

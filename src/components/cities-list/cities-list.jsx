@@ -1,12 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {PropValidation, cities} from '../../const.js';
+import {useSelector, useDispatch} from 'react-redux';
+import {cities} from '../../const.js';
 import {changeCity} from '../../store/action';
-import {getCity} from '../../store/city/selector';
 
-const CitiesList = (props) => {
-  const {city, handleChangeCity} = props;
+const CitiesList = () => {
+  const {city} = useSelector((state) => state.CITY);
+
+  const dispatch = useDispatch();
+
+  const handleChangeCity = (name) => {
+    dispatch(changeCity(name));
+  };
 
   return (
     <ul className="locations__list tabs__list">
@@ -29,20 +33,4 @@ const CitiesList = (props) => {
   );
 };
 
-CitiesList.propTypes = {
-  city: PropValidation.CITY,
-  handleChangeCity: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  city: getCity(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleChangeCity(name) {
-    dispatch(changeCity(name));
-  },
-});
-
-export {CitiesList};
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);
+export default CitiesList;
