@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
+import ReviewsList from '../review/reviews-list';
 import ReviewForm from '../review-form/review-form.jsx';
 import NearOffers from '../near-offers-list/near-offers-list.jsx';
 import {fetchOffer} from "../../store/api-actions";
@@ -10,10 +11,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 const Offer = () => {
   // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
   const {offers, allOffers} = useSelector((state) => state.OFFERS);
-  const {reviews} = useSelector((state) => state.REVIEWS);
-
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
-  const offerReviews = reviews.filter((review) => review.id === offerId);
 
   let offer = offers.find((item) => item.id === offerId);
 
@@ -135,46 +133,11 @@ const Offer = () => {
                   </p>
                 </div>
               </div>
+
               <section className="property__reviews reviews">
-                {offerReviews.length
-                  ? <>
-                    <h2 className="reviews__title">Reviews · <span className="reviews__amount">{offerReviews.length}</span></h2>
-                    <ul className="reviews__list">
-                      {offerReviews.map((review, i) => {
-                        const reviewDate = new Date(review.date);
-                        const reviewDateDay = reviewDate.toLocaleString(`en-US`, {day: `2-digit`});
-                        const reviewDateMouth = reviewDate.toLocaleString(`en-US`, {month: `long`});
-                        const reviewDateNumericMouth = reviewDate.toLocaleString(`en-US`, {month: `2-digit`});
-                        const reviewDateYear = reviewDate.toLocaleString(`en-US`, {year: `numeric`});
-                        return (
-                          <li className="reviews__item" key={name + i}>
-                            <div className="reviews__user user">
-                              <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                                <img className="reviews__avatar user__avatar" src={review.user.avatar_url} width={54} height={54} alt="Reviews avatar" />
-                              </div>
-                              <span className="reviews__user-name">
-                                {review.user.name}
-                              </span>
-                            </div>
-                            <div className="reviews__info">
-                              <div className="reviews__rating rating">
-                                <div className="reviews__stars rating__stars">
-                                  <span style={{"width": (review.rating * 20) + `%`}} />
-                                  <span className="visually-hidden">Rating</span>
-                                </div>
-                              </div>
-                              <p className="reviews__text">
-                                {review.comment}
-                              </p>
-                              <time className="reviews__time" dateTime={reviewDateYear + `-` + reviewDateNumericMouth + `-` + reviewDateDay}>{reviewDateMouth} {reviewDateYear}</time>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                  : <h2 className="reviews__title">No reviews of this place. Post the first one!</h2>
-                }
+                <ReviewsList
+                  offerId= {offerId}
+                />
                 <ReviewForm />
               </section>
             </div>

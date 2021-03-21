@@ -1,10 +1,23 @@
+import {ActionType} from '../action';
+
 const initialState = {
-  reviews: []
+  reviews: [],
+  isReviewsLoaded: false
 };
 
 const reviews = (state = initialState, action) => {
-  // пока заглушка
   switch (action.type) {
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+        isReviewsLoaded: true
+      };
+    case ActionType.SET_REVIEWS_IS_LOADING:
+      return {
+        ...state,
+        isReviewsLoaded: false
+      };
     default:
       return state;
   }

@@ -3,7 +3,9 @@ import {cities} from '../const.js';
 export const ActionType = {
   CHANGE_CITY: `/changeCity`,
   FILL_OFFERS_LIST: `/fillOffersList`,
+  SET_REVIEWS_IS_LOADING: `/setReviewsIsLoading`,
   LOAD_OFFERS: `data/loadOffers`,
+  LOAD_REVIEWS: `data/loadReviews`,
 };
 
 export const changeCity = (city) => {
@@ -30,4 +32,12 @@ export const loadOffers = (data) => ({
   payload: Array.isArray(data) ? data : [data]
 });
 
+export const loadReviews = (data) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: data
+});
+
+export const setReviewsIsLoading = () => ({
+  type: ActionType.SET_REVIEWS_IS_LOADING
+});
 
