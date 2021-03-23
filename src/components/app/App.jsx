@@ -13,7 +13,6 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <MainPage
-            reviews = {[]}
           />
         </Route>
         <Route exact path="/login">

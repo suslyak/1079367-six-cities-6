@@ -6,6 +6,7 @@ export const ActionType = {
   SET_REVIEWS_IS_LOADING: `/setReviewsIsLoading`,
   LOAD_OFFERS: `data/loadOffers`,
   LOAD_REVIEWS: `data/loadReviews`,
+  CHANGE_SORTING: `/changeSorting`,
 };
 
 export const changeCity = (city) => {
@@ -40,4 +41,10 @@ export const loadReviews = (data) => ({
 export const setReviewsIsLoading = () => ({
   type: ActionType.SET_REVIEWS_IS_LOADING
 });
+
+export const changeSorting = (sorting) => ({
+  type: ActionType.CHANGE_SORTING,
+  payload: sorting,
+});
+
 
