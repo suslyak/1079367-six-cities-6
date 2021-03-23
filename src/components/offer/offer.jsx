@@ -1,29 +1,30 @@
 import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
+import ReviewsList from '../review/reviews-list';
 import ReviewForm from '../review-form/review-form.jsx';
 import NearOffers from '../near-offers-list/near-offers-list.jsx';
-import PropTypes from 'prop-types';
-import {PropValidation} from '../../const.js';
 import {fetchOffer} from "../../store/api-actions";
+import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 
-const Offer = (props) => {
-  const {offers, allOffers, reviews, onLoadData} = props;
-
+const Offer = () => {
   // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
-
+  const {offers, allOffers} = useSelector((state) => state.OFFERS);
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
-  const offer = offers.find((item) => item.id === offerId);
-  const offerReviews = reviews.filter((review) => review.id === offerId);
+
+  let offer = offers.find((item) => item.id === offerId);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!offer) {
       const storedOffer = allOffers.find((item) => item.id === offerId);
       if (storedOffer) {
         offer = storedOffer;
+        dispatch(fillOffersList(offer));
       } else {
-        onLoadData(offerId);
+        dispatch(fetchOffer(offerId));
       }
     }
   }, [offers]);
@@ -132,46 +133,11 @@ const Offer = (props) => {
                   </p>
                 </div>
               </div>
+
               <section className="property__reviews reviews">
-                {offerReviews.length
-                  ? <>
-                    <h2 className="reviews__title">Reviews · <span className="reviews__amount">{offerReviews.length}</span></h2>
-                    <ul className="reviews__list">
-                      {offerReviews.map((review, i) => {
-                        const reviewDate = new Date(review.date);
-                        const reviewDateDay = reviewDate.toLocaleString(`en-US`, {day: `2-digit`});
-                        const reviewDateMouth = reviewDate.toLocaleString(`en-US`, {month: `long`});
-                        const reviewDateNumericMouth = reviewDate.toLocaleString(`en-US`, {month: `2-digit`});
-                        const reviewDateYear = reviewDate.toLocaleString(`en-US`, {year: `numeric`});
-                        return (
-                          <li className="reviews__item" key={name + i}>
-                            <div className="reviews__user user">
-                              <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                                <img className="reviews__avatar user__avatar" src={review.user.avatar_url} width={54} height={54} alt="Reviews avatar" />
-                              </div>
-                              <span className="reviews__user-name">
-                                {review.user.name}
-                              </span>
-                            </div>
-                            <div className="reviews__info">
-                              <div className="reviews__rating rating">
-                                <div className="reviews__stars rating__stars">
-                                  <span style={{"width": (review.rating * 20) + `%`}} />
-                                  <span className="visually-hidden">Rating</span>
-                                </div>
-                              </div>
-                              <p className="reviews__text">
-                                {review.comment}
-                              </p>
-                              <time className="reviews__time" dateTime={reviewDateYear + `-` + reviewDateNumericMouth + `-` + reviewDateDay}>{reviewDateMouth} {reviewDateYear}</time>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                  : <h2 className="reviews__title">No reviews of this place. Post the first one!</h2>
-                }
+                <ReviewsList
+                  offerId= {offerId}
+                />
                 <ReviewForm />
               </section>
             </div>
@@ -186,25 +152,4 @@ const Offer = (props) => {
   );
 };
 
-Offer.propTypes = {
-  offers: PropTypes.arrayOf(PropValidation.OFFER),
-  allOffers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW),
-  onLoadData: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  city: state.city,
-  offers: state.offers,
-  allOffers: state.allOffers,
-  reviews: state.reviews
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadData(offerId) {
-    dispatch(fetchOffer(offerId));
-  }
-});
-
-export {Offer};
-export default connect(mapStateToProps, mapDispatchToProps)(Offer);
+export default Offer;

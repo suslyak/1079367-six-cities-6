@@ -1,11 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {PropValidation, cities} from '../../const.js';
-import {ActionCreator} from '../../store/action';
+import {useSelector, useDispatch} from 'react-redux';
+import {cities} from '../../const.js';
+import {changeCity} from '../../store/action';
 
-const CitiesList = (props) => {
-  const {city, changeCity} = props;
+const CitiesList = () => {
+  const {city} = useSelector((state) => state.CITY);
+
+  const dispatch = useDispatch();
+
+  const handleChangeCity = (name) => {
+    dispatch(changeCity(name));
+  };
 
   return (
     <ul className="locations__list tabs__list">
@@ -13,10 +18,10 @@ const CitiesList = (props) => {
         <li className="locations__item" key={name + i}>
           <a
             className={`locations__item-link tabs__item ${item.name === city.name ? `tabs__item--active` : ``}`}
-            href="#"
+            href= {item.name === city.name ? undefined : `#`}
             onClick={(evt) => {
               evt.preventDefault();
-              changeCity(item.name);
+              handleChangeCity(item.name);
             }
             }
           >
@@ -28,20 +33,4 @@ const CitiesList = (props) => {
   );
 };
 
-CitiesList.propTypes = {
-  city: PropValidation.CITY,
-  changeCity: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  city: state.city,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeCity(name) {
-    dispatch(ActionCreator.changeCity(name));
-  },
-});
-
-export {CitiesList};
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);
+export default React.memo(CitiesList);
