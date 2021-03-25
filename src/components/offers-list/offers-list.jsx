@@ -1,27 +1,30 @@
-import React from 'react';
+import React, {useMemo} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import {changeCurrentOffer} from '../../store/action';
 import {PropValidation} from '../../const.js';
+import {SortingFilter, sortListCopy} from '../../utils.js';
+
 import PlaceCard from '../place-card/place-card.jsx';
 
 const OffersList = (props) => {
   const {offers} = props;
-  const initialCardId = offers.length ? offers[0].id : null;
-  const [currentCard, setCurrentCard] = React.useState(initialCardId);
+  const {currentOffersSortingType} = useSelector((state) => state.SORTING);
 
-  // Временно чтобы не ругался линтер
-  const doSomethingWithState = () => {
-    return currentCard;
-  };
+  const dispatch = useDispatch();
 
-  doSomethingWithState();
+  const sortOffersList = useMemo(
+      () => sortListCopy(offers, SortingFilter[currentOffersSortingType]),
+      [currentOffersSortingType, offers]
+  );
 
   const handleCardMouseover = (id) => {
-    setCurrentCard(id);
+    dispatch(changeCurrentOffer(id));
   };
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer, i) =>
+      {sortOffersList.map((offer, i) =>
         <PlaceCard
           onCardMouseOver={() => handleCardMouseover(offer.id)}
           key={name + i}
@@ -34,8 +37,6 @@ const OffersList = (props) => {
 
 OffersList.propTypes = {
   offers: PropTypes.arrayOf(PropValidation.OFFER),
-  reviews: PropTypes.arrayOf(PropValidation.REVIEW),
 };
-
 
 export default OffersList;

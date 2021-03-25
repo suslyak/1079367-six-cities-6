@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 
@@ -8,16 +9,26 @@ import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
   const {city, offers} = props;
+  const {currentOffer} = useSelector((state) => state.MAP);
   const mapRef = useRef();
-  const customIcon = leaflet.icon({
+
+  const customPinIcon = leaflet.icon({
     iconUrl: `./img/pin.svg`,
     iconSize: [27, 39]
   });
+
+  const customActivePinIcon = leaflet.icon({
+    iconUrl: `./img/pin-active.svg`,
+    iconSize: [27, 39]
+  });
+
   const points = offers.map((offer) => ({
+    "id": offer.id,
     "lat": offer.location.latitude,
     "lng": offer.location.longitude,
     "title": offer.title
   }));
+
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
@@ -40,16 +51,17 @@ const Map = (props) => {
         lng: point.lng
       },
       {
-        icon: customIcon,
+        icon: (point.id === currentOffer) ? customActivePinIcon : customPinIcon,
         title: point.title
       })
       .addTo(mapRef.current);
+
     });
 
     return () => {
       mapRef.current.remove();
     };
-  }, [city, offers]);
+  }, [city, offers, currentOffer]);
 
   return (
     <section id="map" className="cities__map map">
