@@ -1,4 +1,4 @@
-import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate} from "./action";
+import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute} from "./action";
 import {AuthorizationStatus, emptyUser} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -37,6 +37,7 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(authenticate(data));
     })
+    .then(() => dispatch(redirectToRoute(`/`)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
@@ -45,4 +46,5 @@ export const logout = () => (dispatch, _getState, api) => (
       dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
       dispatch(authenticate(emptyUser));
     })
+    .then(() => dispatch(redirectToRoute(`/`)))
 );

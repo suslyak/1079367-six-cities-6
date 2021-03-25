@@ -4,6 +4,7 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from "redux-thunk";
 import {createAPI} from "./services/api";
 import {composeWithDevTools} from 'redux-devtools-extension';
+import {redirect} from "./store/middlewares/redirect";
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import reviews from './mocks/reviews.js';
@@ -20,7 +21,10 @@ const api = createAPI(
 
 const store = createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
+    )
 );
 
 store.dispatch(checkAuth());
