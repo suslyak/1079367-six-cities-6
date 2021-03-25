@@ -7,7 +7,9 @@ export const ActionType = {
   LOAD_OFFERS: `data/loadOffers`,
   LOAD_REVIEWS: `data/loadReviews`,
   CHANGE_SORTING: `/changeSorting`,
-  CHANGE_CURRENT_OFFER: `/changeCurrentOffer`
+  CHANGE_CURRENT_OFFER: `/changeCurrentOffer`,
+  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  AUTHENTICATE: `user/authenticate`,
 };
 
 export const changeCity = (city) => {
@@ -51,6 +53,16 @@ export const changeSorting = (sorting) => ({
 export const changeCurrentOffer = (id) => ({
   type: ActionType.CHANGE_CURRENT_OFFER,
   payload: id,
+});
+
+export const requireAuthorization = (status) => ({
+  type: ActionType.REQUIRED_AUTHORIZATION,
+  payload: status,
+});
+
+export const authenticate = (data) => ({
+  type: ActionType.AUTHENTICATE,
+  payload: data,
 });
 
 
