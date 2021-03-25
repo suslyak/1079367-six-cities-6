@@ -24,11 +24,11 @@ const User = () => {
   }
 
   return (
-    <a className="header__nav-link header__nav-link--profile" href="#" onClick={handleUserNameClick}>
-      <div className="header__avatar-wrapper user__avatar-wrapper">
+    <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+      <div className="header__avatar-wrapper user__avatar-wrapper" onClick={handleUserNameClick}>
       </div>
       <span className="header__user-name user__name">{AuthInfo.email}</span>
-    </a>
+    </Link>
   );
 };
 

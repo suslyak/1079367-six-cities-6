@@ -4,6 +4,7 @@ import MainPage from '../main-page/main-page.jsx';
 import Room from '../offer/offer.jsx';
 import SignIn from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
+import PrivateRoute from '../private-route/private-route.jsx';
 import NotFound from '../not-found/not-found.jsx';
 
 
@@ -21,9 +22,11 @@ const App = () => {
         <Route exact path="/offer/:id">
           <Room/>
         </Route>
-        <Route exact path="/favorites">
-          <Favorites/>
-        </Route>
+        <PrivateRoute exact
+          path="/favorites"
+          render={() => <Favorites />}
+        >
+        </PrivateRoute>
         <Route>
           <NotFound />
         </Route>
