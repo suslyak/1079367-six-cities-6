@@ -13,6 +13,11 @@ export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
     .then(({data}) => {
       dispatch(fillOffersList(data));
     })
+    .catch((error) => {
+      if (error.response.status === 404) {
+        dispatch(redirectToRoute(`/404`));
+      }
+    })
 );
 
 export const fetchReviewsList = (offerId) => (dispatch, _getState, api) => (
