@@ -53,7 +53,7 @@ Favorites.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers
+  offers: state.OFFERS.offers
 });
 
 export {Favorites};
