@@ -53,3 +53,15 @@ export const logout = () => (dispatch, _getState, api) => (
     })
     .then(() => dispatch(redirectToRoute(`/`)))
 );
+
+export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) => {
+  api.post(`/comments/${id}`, reviewFormData)
+    .then(({data}) => {
+      dispatch(loadReviews(data));
+    })
+    .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch(redirectToRoute(`/login`));
+      }
+    });
+};
