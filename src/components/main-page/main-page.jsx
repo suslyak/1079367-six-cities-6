@@ -4,7 +4,7 @@ import Header from '../header/header.jsx';
 import Sorting from '../sorting/sorting.jsx';
 import CitiesList from '../cities-list/cities-list.jsx';
 import OffersList from '../offers-list/offers-list.jsx';
-
+import NoOffers from '../no-offers/no-offers.jsx';
 import Map from '../map/map.jsx';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchOffersList} from '../../store/api-actions';
@@ -42,6 +42,24 @@ const MainPage = () => {
               </section>
             </div>
           </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (!offers.length) {
+    return (
+      <div className='page page--gray page--main page__main--index-empty'>
+        <Header />
+        <main className='page__main page__main--index'>
+          <h1 className='visually-hidden'>Cities</h1>
+          <div className='tabs'>
+            <section className='locations container'>
+              <CitiesList
+              />
+            </section>
+          </div>
+          <NoOffers />
         </main>
       </div>
     );
