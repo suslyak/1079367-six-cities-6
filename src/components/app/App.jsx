@@ -30,6 +30,9 @@ const App = () => {
         <Route>
           <NotFound />
         </Route>
+        <Route exact path="/404">
+          <NotFound />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

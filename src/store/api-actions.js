@@ -13,6 +13,11 @@ export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
     .then(({data}) => {
       dispatch(fillOffersList(data));
     })
+    .catch((error) => {
+      if (error.response.status === 404) {
+        dispatch(redirectToRoute(`/404`));
+      }
+    })
 );
 
 export const fetchReviewsList = (offerId) => (dispatch, _getState, api) => (
@@ -48,3 +53,15 @@ export const logout = () => (dispatch, _getState, api) => (
     })
     .then(() => dispatch(redirectToRoute(`/`)))
 );
+
+export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) => {
+  api.post(`/comments/${id}`, reviewFormData)
+    .then(({data}) => {
+      dispatch(loadReviews(data));
+    })
+    .catch((error) => {
+      if (error.response.status === 401) {
+        dispatch(redirectToRoute(`/login`));
+      }
+    });
+};

@@ -7,10 +7,12 @@ import NearOffers from '../near-offers-list/near-offers-list.jsx';
 import {fetchOffer} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {AuthorizationStatus} from '../../const';
 
 const Offer = () => {
   // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
   const {offers, allOffers} = useSelector((state) => state.OFFERS);
+  const {authorizationStatus} = useSelector((state) => state.USER);
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
 
   let offer = offers.find((item) => item.id === offerId);
@@ -51,7 +53,7 @@ const Offer = () => {
             ? <>
               <div className="property__gallery-container container">
                 <div className="property__gallery">
-                  {offer.images.map((offerImage, i) =>
+                  {offer.images.slice(0, 6).map((offerImage, i) =>
                     <div className="property__image-wrapper" key={name + i}>
                       <img className="property__image" src={offerImage} alt="Place image" />
                     </div>)
@@ -138,7 +140,7 @@ const Offer = () => {
                 <ReviewsList
                   offerId= {offerId}
                 />
-                <ReviewForm />
+                {(authorizationStatus === AuthorizationStatus.AUTH) && <ReviewForm offerId= {offerId} />}
               </section>
             </div>
           </div>

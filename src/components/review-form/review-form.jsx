@@ -1,10 +1,16 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
+import PropTypes from 'prop-types';
+import {postReview} from '../../store/api-actions';
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
+  const {offerId} = props;
   const [reviewForm, setReviewForm] = React.useState({
-    rating: null,
-    review: ``,
+    rating: 1,
+    comment: ``,
   });
+
+  const dispatch = useDispatch();
 
   const handleStarClick = (evt) => {
     const star = evt.target;
@@ -16,8 +22,16 @@ const ReviewForm = () => {
     setReviewForm({...reviewForm, [name]: value});
   };
 
+  const handleFormSubmit = (evt) => {
+    evt.preventDefault();
+    dispatch(postReview({
+      id: offerId,
+      reviewFormData: reviewForm})
+    );
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input onClick={handleStarClick} className="form__rating-input visually-hidden" name="rating" defaultValue={5} id="5-stars" type="radio" />
@@ -44,7 +58,7 @@ const ReviewForm = () => {
             <use xlinkHref="#icon-star" />
           </svg>
         </label>
-        <input onClick={handleStarClick} className="form__rating-input visually-hidden" name="rating" defaultValue={1} id="1-star" type="radio" />
+        <input onClick={handleStarClick} className="form__rating-input visually-hidden" name="rating" defaultValue={1} id="1-star" type="radio" defaultChecked/>
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width={37} height={33}>
             <use xlinkHref="#icon-star" />
@@ -55,7 +69,7 @@ const ReviewForm = () => {
         onChange={handleFieldChange}
         className="reviews__textarea form__textarea"
         id="review"
-        name="review"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
         defaultValue={``}
       />
@@ -63,10 +77,20 @@ const ReviewForm = () => {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled = {(reviewForm.comment.length < 50)}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
+};
+
+ReviewForm.propTypes = {
+  offerId: PropTypes.number.isRequired
 };
 
 export default ReviewForm;
