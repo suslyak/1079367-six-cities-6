@@ -59,7 +59,7 @@ export const PropValidation = {
   }))
 };
 
-export const cities = {
+export const City = {
   "Paris": {name: `Paris`, coords: [48.86471, 2.35]},
   "Cologne": {name: `Cologne`, coords: [50.93753, 6.96]},
   "Brussels": {name: `Brussels`, coords: [50.85034, 4.35]},

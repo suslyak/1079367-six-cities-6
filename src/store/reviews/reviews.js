@@ -16,7 +16,7 @@ const reviews = (state = initialState, action) => {
     case ActionType.SET_REVIEWS_IS_LOADING:
       return {
         ...state,
-        isReviewsLoaded: false
+        isReviewsLoaded: action.payload
       };
     default:
       return state;

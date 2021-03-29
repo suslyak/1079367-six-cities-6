@@ -1,7 +1,7 @@
 import {ActionType} from '../action';
-import {cities} from '../../const.js';
+import {City} from '../../const.js';
 
-const initialCity = cities[`Paris`];
+const initialCity = City[`Paris`];
 
 const initialState = {
   city: {

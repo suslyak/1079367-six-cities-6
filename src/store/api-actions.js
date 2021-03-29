@@ -1,4 +1,4 @@
-import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute} from "./action";
+import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute, setFavoritesIsLoaded, updateOffers} from "./action";
 import {AuthorizationStatus, emptyUser} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -54,7 +54,7 @@ export const logout = () => (dispatch, _getState, api) => (
     .then(() => dispatch(redirectToRoute(`/`)))
 );
 
-export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) => {
+export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, reviewFormData)
     .then(({data}) => {
       dispatch(loadReviews(data));
@@ -63,5 +63,26 @@ export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) =
       if (error.response.status === 401) {
         dispatch(redirectToRoute(`/login`));
       }
+    })
+);
+
+export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status}`)
+  .then(({data}) => {
+    dispatch(updateOffers(data));
+  })
+  .catch((error) => {
+    if (error.response.status === 401) {
+      dispatch(redirectToRoute(`/login`));
+    }
+  })
+);
+
+export const fetchFavoritesList = () => (dispatch, _getState, api) => {
+  api.get(`/favorite`)
+    .then(({data}) => {
+      dispatch(setFavoritesIsLoaded(true));
+      dispatch(fillOffersList(data));
     });
 };
+
