@@ -180,6 +180,7 @@ const Offer = () => {
             offers={offers.concat(nearOffers)}
             containerSpecifiedClass={`property__map`}
             currentOffer={offer}
+            scrollZoom={false}
           />
         </section>
         <div className="container">

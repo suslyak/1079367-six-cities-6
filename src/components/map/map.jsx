@@ -8,7 +8,7 @@ import {PropValidation} from '../../const.js';
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {city, offers, containerSpecifiedClass = ``, currentOffer = null} = props;
+  const {city, offers, containerSpecifiedClass = ``, currentOffer = null, scrollZoom = true} = props;
   const {mouseHoverOffer} = useSelector((state) => state.MAP);
   const mapRef = useRef();
   const offerToHighligtID = currentOffer ? currentOffer.id : mouseHoverOffer;
@@ -36,7 +36,7 @@ const Map = (props) => {
         lng: city.lng
       },
       zoom: 12,
-      zoomControl: false,
+      scrollWheelZoom: scrollZoom,
       marker: true
     });
     leaflet
@@ -72,7 +72,8 @@ Map.propTypes = {
   city: PropValidation.CITY,
   offers: PropTypes.arrayOf(PropValidation.OFFER),
   containerSpecifiedClass: PropTypes.string,
-  currentOffer: PropValidation.OFFER
+  currentOffer: PropValidation.OFFER,
+  scrollZoom: PropTypes.bool
 };
 
 
