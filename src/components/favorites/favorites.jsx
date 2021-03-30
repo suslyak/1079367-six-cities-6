@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,20 +7,25 @@ import FavoritesList from './favorites-list.jsx';
 import NoFavorites from './no-favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchFavoritesList} from '../../store/api-actions';
+import {setFavoritesIsLoaded} from '../../store/action';
 import {PropValidation, City} from '../../const.js';
 
 
 const Favorites = () => {
-  const {offers, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
+  let {offers, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
   const cities = Object.values(City).map((item) => item.name);
 
   const dispatch = useDispatch();
 
+  const [firstRender, setFirstRender] = useState(true);
+
   useEffect(() => {
+    setFirstRender(false);
+    dispatch(setFavoritesIsLoaded(false));
     dispatch(fetchFavoritesList());
   }, []);
 
-  if (!isFavoritesLoaded) {
+  if ((!isFavoritesLoaded) || firstRender) {
 
     return (
       <div className="page page--favorites-empty">

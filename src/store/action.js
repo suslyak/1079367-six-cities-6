@@ -7,6 +7,7 @@ export const ActionType = {
   SET_REVIEWS_IS_LOADED: `/setReviewsIsLoaded`,
   SET_FAVORITES_IS_LOADED: `/setFavoritesIsLoaded`,
   LOAD_OFFERS: `data/loadOffers`,
+  UPDATE_ALLOFFERS: `data/updateAllOffers`,
   UPDATE_OFFERS: `data/updateOffers`,
   LOAD_REVIEWS: `data/loadReviews`,
   CHANGE_SORTING: `/changeSorting`,
@@ -38,6 +39,11 @@ export const fillOffersList = (data) => ({
 export const loadOffers = (data) => ({
   type: ActionType.LOAD_OFFERS,
   payload: Array.isArray(data) ? data : [data]
+});
+
+export const updateAllOffers = (data) => ({
+  type: ActionType.UPDATE_ALLOFFERS,
+  payload: data
 });
 
 export const updateOffers = (data) => ({

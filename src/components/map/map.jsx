@@ -8,10 +8,10 @@ import {PropValidation} from '../../const.js';
 import "leaflet/dist/leaflet.css";
 
 const Map = (props) => {
-  const {city, offers} = props;
-  const {currentOffer} = useSelector((state) => state.MAP);
+  const {city, offers, containerSpecifiedClass = ``, currentOffer = null} = props;
+  const {mouseHoverOffer} = useSelector((state) => state.MAP);
   const mapRef = useRef();
-
+  const offerToHighligtID = currentOffer ? currentOffer.id : mouseHoverOffer;
   const customPinIcon = leaflet.icon({
     iconUrl: `./img/pin.svg`,
     iconSize: [27, 39]
@@ -51,20 +51,19 @@ const Map = (props) => {
         lng: point.lng
       },
       {
-        icon: (point.id === currentOffer) ? customActivePinIcon : customPinIcon,
+        icon: (point.id === offerToHighligtID) ? customActivePinIcon : customPinIcon,
         title: point.title
       })
       .addTo(mapRef.current);
-
     });
 
     return () => {
       mapRef.current.remove();
     };
-  }, [city, offers, currentOffer]);
+  }, [city, offers, mouseHoverOffer]);
 
   return (
-    <section id="map" className="cities__map map">
+    <section id="map" className={`${containerSpecifiedClass} map`}>
     </section>
   );
 };
@@ -72,6 +71,8 @@ const Map = (props) => {
 Map.propTypes = {
   city: PropValidation.CITY,
   offers: PropTypes.arrayOf(PropValidation.OFFER),
+  containerSpecifiedClass: PropTypes.string,
+  currentOffer: PropValidation.OFFER
 };
 
 

@@ -7,6 +7,20 @@ const initialState = {
   isFavoritesLoaded: false
 };
 
+const updateArrayStateField = (state, update) => {
+  const index = state.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return [update];
+  }
+
+  return [
+    ...state.slice(0, index),
+    update,
+    ...state.slice(index + 1)
+  ];
+};
+
 const offers = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_OFFERS:
@@ -20,15 +34,15 @@ const offers = (state = initialState, action) => {
         ...state,
         offers: action.payload
       };
+    case ActionType.UPDATE_ALLOFFERS:
+      return {
+        ...state,
+        allOffers: updateArrayStateField(state.allOffers, action.payload),
+      };
     case ActionType.UPDATE_OFFERS:
       return {
         ...state,
-        allOffers: state.allOffers.map((offer) => {
-          if (offer.id === action.payload.id) {
-            return action.payload;
-          }
-          return offer;
-        })
+        offers: updateArrayStateField(state.offers, action.payload)
       };
     case ActionType.SET_FAVORITES_IS_LOADED:
       return {

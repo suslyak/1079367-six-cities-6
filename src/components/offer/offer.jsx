@@ -3,22 +3,27 @@ import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
 import ReviewsList from '../review/reviews-list';
 import ReviewForm from '../review-form/review-form.jsx';
+import Map from '../map/map.jsx';
 import NearOffers from '../near-offers-list/near-offers-list.jsx';
 import {fetchOffer, changeFavorite} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
+import {createAPI} from "../../services/api";
 
 const Offer = () => {
+  const {city} = useSelector((state) => state.CITY);
   const {offers, allOffers} = useSelector((state) => state.OFFERS);
   const {authorizationStatus} = useSelector((state) => state.USER);
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
-
+  const api = createAPI(()=>{}, ()=>{});
   let offer = offers.find((item) => item.id === offerId);
   const inBookmarksInitialState = offer ? offer.is_favorite : false;
   const dispatch = useDispatch();
 
   const [inBookmarks, setInbookmarks] = useState(inBookmarksInitialState);
+  const [nearOffers, setNearOffers] = useState([]);
+
 
   const onBookmarkClick = () => {
     dispatch(changeFavorite({
@@ -39,8 +44,19 @@ const Offer = () => {
       }
     } else {
       setInbookmarks(offer.is_favorite);
+      fetchNear();
     }
   }, [offers]);
+
+  const fetchNear = () => {
+    const id = offer ? offer.id : null;
+    if (id) {
+      api.get(`/hotels/${id}/nearby`)
+      .then(({data}) => {
+        setNearOffers(data);
+      });
+    }
+  };
 
   if (!offer) {
     return (
@@ -159,10 +175,17 @@ const Offer = () => {
               </section>
             </div>
           </div>
-          <section className="property__map map" />
+          <Map
+            city={city}
+            offers={offers.concat(nearOffers)}
+            containerSpecifiedClass={`property__map`}
+            currentOffer={offer}
+          />
         </section>
         <div className="container">
-          <NearOffers />
+          <NearOffers
+            offers={nearOffers}
+          />
         </div>
       </main>
     </div>

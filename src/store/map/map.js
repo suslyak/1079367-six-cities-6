@@ -1,7 +1,7 @@
 import {ActionType} from '../action';
 
 const initialState = {
-  currentOffer: null
+  mouseHoverOffer: null
 };
 
 const map = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const map = (state = initialState, action) => {
     case ActionType.CHANGE_CURRENT_OFFER:
       return {
         ...state,
-        currentOffer: action.payload,
+        mouseHoverOffer: action.payload,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute, setFavoritesIsLoaded, updateOffers} from "./action";
+import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute, setFavoritesIsLoaded, updateOffers, updateAllOffers} from "./action";
 import {AuthorizationStatus, emptyUser} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -69,6 +69,7 @@ export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) =
 export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${status}`)
   .then(({data}) => {
+    dispatch(updateAllOffers(data));
     dispatch(updateOffers(data));
   })
   .catch((error) => {
