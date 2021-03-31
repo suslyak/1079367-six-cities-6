@@ -1,23 +1,32 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
 import ReviewsList from '../review/reviews-list';
 import ReviewForm from '../review-form/review-form.jsx';
 import NearOffers from '../near-offers-list/near-offers-list.jsx';
-import {fetchOffer} from "../../store/api-actions";
+import {fetchOffer, changeFavorite} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
 
 const Offer = () => {
-  // Тащим из хранилища allOffer, чтобы не делать запрос, если все офферы уже были загружены.
   const {offers, allOffers} = useSelector((state) => state.OFFERS);
   const {authorizationStatus} = useSelector((state) => state.USER);
   const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
 
   let offer = offers.find((item) => item.id === offerId);
-
+  const inBookmarksInitialState = offer ? offer.is_favorite : false;
   const dispatch = useDispatch();
+
+  const [inBookmarks, setInbookmarks] = useState(inBookmarksInitialState);
+
+  const onBookmarkClick = () => {
+    dispatch(changeFavorite({
+      id: offer.id,
+      status: inBookmarks ? 0 : 1
+    }));
+    setInbookmarks(!inBookmarks);
+  };
 
   useEffect(() => {
     if (!offer) {
@@ -28,6 +37,8 @@ const Offer = () => {
       } else {
         dispatch(fetchOffer(offerId));
       }
+    } else {
+      setInbookmarks(offer.is_favorite);
     }
   }, [offers]);
 
@@ -75,7 +86,11 @@ const Offer = () => {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button
+                  className={`property__bookmark-button button ${inBookmarks ? `property__bookmark-button--active` : ``}`}
+                  type="button"
+                  onClick={onBookmarkClick}
+                >
                   <svg className="property__bookmark-icon" width={31} height={33}>
                     <use xlinkHref="#icon-bookmark" />
                   </svg>

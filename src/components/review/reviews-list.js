@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {fetchReviewsList} from "../../store/api-actions";
-import {setReviewsIsLoading} from '../../store/action';
+import {setReviewsIsLoaded} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Review from '../review/review';
 
@@ -12,8 +12,8 @@ const ReviewsList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setReviewsIsLoaded(false));
     dispatch(fetchReviewsList(offerId));
-    dispatch(setReviewsIsLoading());
   }, []);
 
   if (!isReviewsLoaded) {

@@ -29,6 +29,8 @@ const OffersList = (props) => {
           onCardMouseOver={() => handleCardMouseover(offer.id)}
           key={name + i}
           offer={offer}
+          specifiedArticleClass={`cities__place-card`}
+          specifiedImageWrapperClass={`cities__image-wrapper`}
         />)
       }
     </div>

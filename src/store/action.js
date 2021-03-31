@@ -1,10 +1,13 @@
-import {cities} from '../const.js';
+import {City} from '../const.js';
 
 export const ActionType = {
   CHANGE_CITY: `/changeCity`,
   FILL_OFFERS_LIST: `/fillOffersList`,
-  SET_REVIEWS_IS_LOADING: `/setReviewsIsLoading`,
+  SET_OFFERS_IS_LOADED: `/setOffersIsLoaded`,
+  SET_REVIEWS_IS_LOADED: `/setReviewsIsLoaded`,
+  SET_FAVORITES_IS_LOADED: `/setFavoritesIsLoaded`,
   LOAD_OFFERS: `data/loadOffers`,
+  UPDATE_OFFERS: `data/updateOffers`,
   LOAD_REVIEWS: `data/loadReviews`,
   CHANGE_SORTING: `/changeSorting`,
   CHANGE_CURRENT_OFFER: `/changeCurrentOffer`,
@@ -15,9 +18,9 @@ export const ActionType = {
 
 export const changeCity = (city) => {
   const newCity = {
-    "name": cities[city].name,
-    "lat": cities[city].coords[0],
-    "lng": cities[city].coords[1],
+    "name": City[city].name,
+    "lat": City[city].coords[0],
+    "lng": City[city].coords[1],
     "zoom": 12
   };
 
@@ -37,13 +40,28 @@ export const loadOffers = (data) => ({
   payload: Array.isArray(data) ? data : [data]
 });
 
+export const updateOffers = (data) => ({
+  type: ActionType.UPDATE_OFFERS,
+  payload: data
+});
+
 export const loadReviews = (data) => ({
   type: ActionType.LOAD_REVIEWS,
   payload: data
 });
+export const setOffersIsLoaded = (data) => ({
+  type: ActionType.SET_OFFERS_IS_LOADED,
+  payload: data
+});
 
-export const setReviewsIsLoading = () => ({
-  type: ActionType.SET_REVIEWS_IS_LOADING
+export const setReviewsIsLoaded = (data) => ({
+  type: ActionType.SET_REVIEWS_IS_LOADED,
+  payload: data
+});
+
+export const setFavoritesIsLoaded = (data) => ({
+  type: ActionType.SET_FAVORITES_IS_LOADED,
+  payload: data
 });
 
 export const changeSorting = (sorting) => ({

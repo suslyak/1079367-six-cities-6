@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {cities} from '../../const.js';
+import {City} from '../../const.js';
 import {changeCity} from '../../store/action';
 
 const CitiesList = () => {
@@ -14,7 +14,7 @@ const CitiesList = () => {
 
   return (
     <ul className="locations__list tabs__list">
-      {Object.values(cities).map((item, i) =>
+      {Object.values(City).map((item, i) =>
         <li className="locations__item" key={name + i}>
           <a
             className={`locations__item-link tabs__item ${item.name === city.name ? `tabs__item--active` : ``}`}

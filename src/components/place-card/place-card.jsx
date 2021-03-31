@@ -1,36 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import {PropValidation} from '../../const.js';
+import {changeFavorite} from '../../store/api-actions';
 
 const PlaceCard = (props) => {
-  const {offer, onCardMouseOver} = props;
+  const {
+    offer,
+    specifiedArticleClass = ``,
+    specifiedInfoClass = ``,
+    specifiedImageWrapperClas = ``,
+    onCardMouseOver,
+    imageSize = {width: 260, height: 200}
+  } = props;
+
+
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onBookmarkClick = () => {
+    dispatch(changeFavorite({
+      id: offer.id,
+      status: offer.is_favorite ? 0 : 1
+    }));
+  };
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={onCardMouseOver}>
+    <article className={`${specifiedArticleClass} place-card`} onMouseOver={onCardMouseOver ? onCardMouseOver : false}>
       {offer.is_premium
         ? <div className="place-card__mark">
           <span>Premium</span>
         </div>
         : ``
       }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${specifiedImageWrapperClas} place-card__image-wrapper`}>
         <a href="#">
-          <img className="place-card__image" src={offer.preview_image} width={260} height={200} alt="Place image" />
+          <img className="place-card__image" src={offer.preview_image} width={imageSize.width} height={imageSize.height} alt="Place image" />
         </a>
       </div>
-      <div className="place-card__info">
+      <div className={`${specifiedInfoClass} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button
+            className={`place-card__bookmark-button button ${offer.is_favorite ? `place-card__bookmark-button--active` : ``}`}
+            type="button"
+            onClick={onBookmarkClick}
+          >
             <svg className="place-card__bookmark-icon" width={18} height={19}>
               <use xlinkHref="#icon-bookmark" />
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">{offer.is_favorite ? `In bookmarks` : `To bookmarks`}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -60,7 +83,11 @@ const PlaceCard = (props) => {
 
 PlaceCard.propTypes = {
   offer: PropValidation.OFFER,
-  onCardMouseOver: PropTypes.func
+  specifiedArticleClass: PropTypes.string,
+  specifiedInfoClass: PropTypes.string,
+  specifiedImageWrapperClas: PropTypes.string,
+  onCardMouseOver: PropTypes.func,
+  imageSize: PropTypes.shape({width: PropTypes.number, height: PropTypes.number})
 };
 
 export default PlaceCard;
