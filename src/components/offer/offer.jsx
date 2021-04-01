@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../header/header.jsx';
 import ReviewsList from '../review/reviews-list';
 import ReviewForm from '../review-form/review-form.jsx';
@@ -9,21 +10,18 @@ import {fetchOffer, changeFavorite} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
-import {createAPI} from "../../services/api";
 
-const Offer = () => {
+const Offer = (props) => {
+  const {id} = props;
   const {city} = useSelector((state) => state.CITY);
-  const {offers, allOffers} = useSelector((state) => state.OFFERS);
+  const {offers, allOffers, nearOffers} = useSelector((state) => state.OFFERS);
   const {authorizationStatus} = useSelector((state) => state.USER);
-  const offerId = parseInt(window.location.pathname.substring(window.location.pathname.lastIndexOf(`/`) + 1), 10);
-  const api = createAPI(()=>{}, ()=>{});
+  const offerId = parseInt(id, 10);
   let offer = offers.find((item) => item.id === offerId);
   const inBookmarksInitialState = offer ? offer.is_favorite : false;
   const dispatch = useDispatch();
 
   const [inBookmarks, setInbookmarks] = useState(inBookmarksInitialState);
-  const [nearOffers, setNearOffers] = useState([]);
-
 
   const onBookmarkClick = () => {
     dispatch(changeFavorite({
@@ -44,19 +42,8 @@ const Offer = () => {
       }
     } else {
       setInbookmarks(offer.is_favorite);
-      fetchNear();
     }
-  }, [offers]);
-
-  const fetchNear = () => {
-    const id = offer ? offer.id : null;
-    if (id) {
-      api.get(`/hotels/${id}/nearby`)
-      .then(({data}) => {
-        setNearOffers(data);
-      });
-    }
-  };
+  }, [offers, id]);
 
   if (!offer) {
     return (
@@ -185,12 +172,16 @@ const Offer = () => {
         </section>
         <div className="container">
           <NearOffers
-            offers={nearOffers}
+            offerId={offerId}
           />
         </div>
       </main>
     </div>
   );
+};
+
+Offer.propTypes = {
+  id: PropTypes.string
 };
 
 export default Offer;

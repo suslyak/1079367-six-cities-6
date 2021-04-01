@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -10,22 +10,18 @@ import {fetchFavoritesList} from '../../store/api-actions';
 import {setFavoritesIsLoaded} from '../../store/action';
 import {PropValidation, City} from '../../const.js';
 
-
 const Favorites = () => {
-  let {offers, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
+  const {favorites, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
   const cities = Object.values(City).map((item) => item.name);
 
   const dispatch = useDispatch();
 
-  const [firstRender, setFirstRender] = useState(true);
-
   useEffect(() => {
-    setFirstRender(false);
     dispatch(setFavoritesIsLoaded(false));
     dispatch(fetchFavoritesList());
   }, []);
 
-  if ((!isFavoritesLoaded) || firstRender) {
+  if (!isFavoritesLoaded) {
 
     return (
       <div className="page page--favorites-empty">
@@ -46,7 +42,7 @@ const Favorites = () => {
     );
   }
 
-  if (!offers.length) {
+  if (!favorites.length) {
     return (
       <NoFavorites />
     );
@@ -61,7 +57,7 @@ const Favorites = () => {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {cities.map((city, i) => {
-                const cityOffers = offers.filter((offer) => offer.city.name === city);
+                const cityOffers = favorites.filter((offer) => offer.city.name === city);
                 return (
                   cityOffers.length
                     ?
@@ -97,7 +93,7 @@ const Favorites = () => {
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropValidation.OFFER),
+  favorites: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
 export default Favorites;

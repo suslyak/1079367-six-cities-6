@@ -1,15 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
+import {fetchNearOffersList} from "../../store/api-actions";
 import {PropValidation} from '../../const';
 
 const NearOffers = (props) => {
-  const {offers} = props;
+  const {offerId} = props;
+  const {nearOffers} = useSelector((state) => state.OFFERS);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchNearOffersList(offerId));
+  }, [offerId]);
+
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {offers.map((offer, i) =>
+        {nearOffers.map((offer, i) =>
           <PlaceCard
             onCardMouseOver={() => {}}
             key={name + i}
@@ -24,7 +33,8 @@ const NearOffers = (props) => {
 };
 
 NearOffers.propTypes = {
-  offers: PropTypes.arrayOf(PropValidation.OFFER),
+  offerId: PropTypes.number,
+  nearOffers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
 export default NearOffers;

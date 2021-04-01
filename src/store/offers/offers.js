@@ -3,6 +3,8 @@ import {ActionType} from '../action';
 const initialState = {
   offers: [],
   allOffers: [],
+  nearOffers: [],
+  favorites: [],
   isOffersLoaded: false,
   isFavoritesLoaded: false
 };
@@ -34,6 +36,16 @@ const offers = (state = initialState, action) => {
         ...state,
         offers: action.payload
       };
+    case ActionType.FILL_NEAR_OFFERS_LIST:
+      return {
+        ...state,
+        nearOffers: action.payload
+      };
+    case ActionType.FILL_FAVORITES_LIST:
+      return {
+        ...state,
+        favorites: action.payload
+      };
     case ActionType.UPDATE_ALLOFFERS:
       return {
         ...state,
@@ -43,6 +55,11 @@ const offers = (state = initialState, action) => {
       return {
         ...state,
         offers: updateArrayStateField(state.offers, action.payload)
+      };
+    case ActionType.UPDATE_FAVORITES:
+      return {
+        ...state,
+        favorites: updateArrayStateField(state.favorites, action.payload)
       };
     case ActionType.SET_FAVORITES_IS_LOADED:
       return {

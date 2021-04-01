@@ -1,4 +1,16 @@
-import {loadOffers, fillOffersList, loadReviews, requireAuthorization, authenticate, redirectToRoute, setFavoritesIsLoaded, updateOffers, updateAllOffers} from "./action";
+import {
+  loadOffers,
+  fillOffersList,
+  loadReviews,
+  requireAuthorization,
+  authenticate,
+  redirectToRoute,
+  setFavoritesIsLoaded,
+  updateFavorites,
+  updateAllOffers,
+  fillNearOffersList,
+  fillFavoritesList} from "./action";
+
 import {AuthorizationStatus, emptyUser} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -70,7 +82,7 @@ export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${status}`)
   .then(({data}) => {
     dispatch(updateAllOffers(data));
-    dispatch(updateOffers(data));
+    dispatch(updateFavorites(data));
   })
   .catch((error) => {
     if (error.response.status === 401) {
@@ -83,7 +95,15 @@ export const fetchFavoritesList = () => (dispatch, _getState, api) => {
   api.get(`/favorite`)
     .then(({data}) => {
       dispatch(setFavoritesIsLoaded(true));
-      dispatch(fillOffersList(data));
+      dispatch(fillFavoritesList(data));
     });
 };
+
+export const fetchNearOffersList = (offerId) => (dispatch, _getState, api) => (
+  api.get(`/hotels/${offerId}/nearby`)
+    .then(({data}) => {
+      dispatch(fillNearOffersList(data));
+    })
+);
+
 
