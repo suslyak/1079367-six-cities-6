@@ -90,6 +90,7 @@ const MainPage = () => {
               <Map
                 city={city}
                 offers={offers}
+                containerSpecifiedClass={`cities__map`}
               />
             </div>
           </div>

@@ -19,8 +19,11 @@ const App = () => {
         <Route exact path="/login">
           <SignIn />
         </Route>
-        <Route exact path="/offer/:id">
-          <Room/>
+        <Route
+          exact
+          path="/offer/:id"
+          render={(paramsToProps) => <Room {...paramsToProps.match.params} />}
+        >
         </Route>
         <PrivateRoute exact
           path="/favorites"

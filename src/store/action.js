@@ -3,11 +3,15 @@ import {City} from '../const.js';
 export const ActionType = {
   CHANGE_CITY: `/changeCity`,
   FILL_OFFERS_LIST: `/fillOffersList`,
+  FILL_NEAR_OFFERS_LIST: `/fillNearOffersList`,
+  FILL_FAVORITES_LIST: `/fillFavoritesList`,
   SET_OFFERS_IS_LOADED: `/setOffersIsLoaded`,
   SET_REVIEWS_IS_LOADED: `/setReviewsIsLoaded`,
   SET_FAVORITES_IS_LOADED: `/setFavoritesIsLoaded`,
   LOAD_OFFERS: `data/loadOffers`,
+  UPDATE_ALLOFFERS: `data/updateAllOffers`,
   UPDATE_OFFERS: `data/updateOffers`,
+  UPDATE_FAVORITES: `data/updateFavorites`,
   LOAD_REVIEWS: `data/loadReviews`,
   CHANGE_SORTING: `/changeSorting`,
   CHANGE_CURRENT_OFFER: `/changeCurrentOffer`,
@@ -35,13 +39,33 @@ export const fillOffersList = (data) => ({
   payload: Array.isArray(data) ? data : [data]
 });
 
+export const fillNearOffersList = (data) => ({
+  type: ActionType.FILL_NEAR_OFFERS_LIST,
+  payload: Array.isArray(data) ? data : [data]
+});
+
+export const fillFavoritesList = (data) => ({
+  type: ActionType.FILL_FAVORITES_LIST,
+  payload: Array.isArray(data) ? data : [data]
+});
+
 export const loadOffers = (data) => ({
   type: ActionType.LOAD_OFFERS,
   payload: Array.isArray(data) ? data : [data]
 });
 
+export const updateAllOffers = (data) => ({
+  type: ActionType.UPDATE_ALLOFFERS,
+  payload: data
+});
+
 export const updateOffers = (data) => ({
   type: ActionType.UPDATE_OFFERS,
+  payload: data
+});
+
+export const updateFavorites = (data) => ({
+  type: ActionType.UPDATE_FAVORITES,
   payload: data
 });
 
@@ -88,5 +112,3 @@ export const redirectToRoute = (url) => ({
   type: ActionType.REDIRECT_TO_ROUTE,
   payload: url,
 });
-
-

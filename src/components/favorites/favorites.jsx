@@ -7,16 +7,17 @@ import FavoritesList from './favorites-list.jsx';
 import NoFavorites from './no-favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchFavoritesList} from '../../store/api-actions';
+import {setFavoritesIsLoaded} from '../../store/action';
 import {PropValidation, City} from '../../const.js';
 
-
 const Favorites = () => {
-  const {offers, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
+  const {favorites, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
   const cities = Object.values(City).map((item) => item.name);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setFavoritesIsLoaded(false));
     dispatch(fetchFavoritesList());
   }, []);
 
@@ -41,7 +42,7 @@ const Favorites = () => {
     );
   }
 
-  if (!offers.length) {
+  if (!favorites.length) {
     return (
       <NoFavorites />
     );
@@ -56,7 +57,7 @@ const Favorites = () => {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {cities.map((city, i) => {
-                const cityOffers = offers.filter((offer) => offer.city.name === city);
+                const cityOffers = favorites.filter((offer) => offer.city.name === city);
                 return (
                   cityOffers.length
                     ?
@@ -92,7 +93,7 @@ const Favorites = () => {
 };
 
 Favorites.propTypes = {
-  offers: PropTypes.arrayOf(PropValidation.OFFER),
+  favorites: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
 export default Favorites;

@@ -3,8 +3,24 @@ import {ActionType} from '../action';
 const initialState = {
   offers: [],
   allOffers: [],
+  nearOffers: [],
+  favorites: [],
   isOffersLoaded: false,
   isFavoritesLoaded: false
+};
+
+const updateArrayStateField = (state, update) => {
+  const index = state.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return [update];
+  }
+
+  return [
+    ...state.slice(0, index),
+    update,
+    ...state.slice(index + 1)
+  ];
 };
 
 const offers = (state = initialState, action) => {
@@ -20,15 +36,30 @@ const offers = (state = initialState, action) => {
         ...state,
         offers: action.payload
       };
+    case ActionType.FILL_NEAR_OFFERS_LIST:
+      return {
+        ...state,
+        nearOffers: action.payload
+      };
+    case ActionType.FILL_FAVORITES_LIST:
+      return {
+        ...state,
+        favorites: action.payload
+      };
+    case ActionType.UPDATE_ALLOFFERS:
+      return {
+        ...state,
+        allOffers: updateArrayStateField(state.allOffers, action.payload),
+      };
     case ActionType.UPDATE_OFFERS:
       return {
         ...state,
-        allOffers: state.allOffers.map((offer) => {
-          if (offer.id === action.payload.id) {
-            return action.payload;
-          }
-          return offer;
-        })
+        offers: updateArrayStateField(state.offers, action.payload)
+      };
+    case ActionType.UPDATE_FAVORITES:
+      return {
+        ...state,
+        favorites: updateArrayStateField(state.favorites, action.payload)
       };
     case ActionType.SET_FAVORITES_IS_LOADED:
       return {
