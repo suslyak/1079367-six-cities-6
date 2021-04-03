@@ -6,34 +6,35 @@ import SignIn from '../login/login.jsx';
 import Favorites from '../favorites/favorites.jsx';
 import PrivateRoute from '../private-route/private-route.jsx';
 import NotFound from '../not-found/not-found.jsx';
-import browserHistory from "../../browser-history";
+import browserHistory from '../../browser-history';
+import {AppRoute} from '../../const';
 
 const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path="/">
+        <Route exact path={AppRoute.ROOT}>
           <MainPage
           />
         </Route>
-        <Route exact path="/login">
+        <Route exact path={AppRoute.LOGIN}>
           <SignIn />
         </Route>
         <Route
           exact
-          path="/offer/:id"
+          path={AppRoute.ROOM}
           render={(paramsToProps) => <Room {...paramsToProps.match.params} />}
         >
         </Route>
         <PrivateRoute exact
-          path="/favorites"
+          path={AppRoute.FAVORITES}
           render={() => <Favorites />}
         >
         </PrivateRoute>
         <Route>
           <NotFound />
         </Route>
-        <Route exact path="/404">
+        <Route exact path={AppRoute.NOT_FOUND}>
           <NotFound />
         </Route>
       </Switch>

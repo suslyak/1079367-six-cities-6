@@ -13,7 +13,7 @@ const reviews = (state = initialState, action) => {
         reviews: action.payload,
         isReviewsLoaded: true
       };
-    case ActionType.SET_REVIEWS_IS_LOADING:
+    case ActionType.SET_REVIEWS_IS_LOADED:
       return {
         ...state,
         isReviewsLoaded: action.payload
