@@ -4,7 +4,7 @@ import {
 } from '../action';
 import {Sorting} from '../../const.js';
 
-describe(`Reducers work correctly`, () => {
+describe(`Reducer 'sorting' work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(sorting(undefined, {}))
       .toEqual({
