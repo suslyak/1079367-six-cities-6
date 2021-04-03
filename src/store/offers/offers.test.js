@@ -124,7 +124,7 @@ describe(`Reducers work correctly`, () => {
         nearOffers: [],
         favorites: [],
         isOffersLoaded: false,
-        isFavoritesLoaded: true
+        isFavoritesLoaded: false
       });
   });
 
