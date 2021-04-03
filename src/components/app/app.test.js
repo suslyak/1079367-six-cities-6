@@ -9,6 +9,7 @@ import {createAPI} from "../../services/api";
 import {AuthorizationStatus, City, Sorting, emptyUser} from '../../const';
 import App from './app';
 
+
 const api = createAPI(() => {}, () => {});
 
 const middlewares = [thunk.withExtraArgument(api)];
