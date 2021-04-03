@@ -1,5 +1,5 @@
 import {map} from './map';
-import {changeCity, changeCurrentOffer} from '../action';
+import {changeCurrentOffer} from '../action';
 
 describe(`Reducers work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
