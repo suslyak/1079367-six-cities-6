@@ -51,6 +51,7 @@ const Offer = (props) => {
         <Header/>
         <main className="page__main page__main--property">
           <section className="property">
+            <h1>Loading offer</h1>
             <LoadingScreen />
           </section>
         </main>

@@ -29,6 +29,7 @@ const Favorites = () => {
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
+              <h1>Loading favorites</h1>
               <LoadingScreen />
             </section>
           </div>
