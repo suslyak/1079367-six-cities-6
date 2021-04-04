@@ -24,6 +24,7 @@ const CitiesList = () => {
               handleChangeCity(item.name);
             }
             }
+            data-testid={`cityTab` + i}
           >
             <span>{item.name}</span>
           </a>
