@@ -46,6 +46,7 @@ const Login = () => {
                 <label className="visually-hidden" htmlFor="password">Password</label>
                 <input
                   ref={passwordRef}
+                  id="password"
                   className="login__input form__input"
                   type="password"
                   name="password"

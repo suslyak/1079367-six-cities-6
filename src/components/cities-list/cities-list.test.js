@@ -1,15 +1,12 @@
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {render, screen} from '@testing-library/react';
 import * as redux from 'react-redux';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
-import {createAPI} from "../../services/api";
 import CitiesList from './cities-list';
 
-const api = createAPI(() => {}, () => {});
 
-const middlewares = [thunk.withExtraArgument(api)];
+const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 jest.mock(`../../const.js`, () => ({
@@ -22,17 +19,8 @@ jest.mock(`../../const.js`, () => ({
 
 
 describe(`Test cities list`, () => {
-  beforeEach(() => {
-    jest.resetModules();
-  });
-
   jest.spyOn(redux, `useSelector`);
   jest.spyOn(redux, `useDispatch`);
-
-  jest.mock(`react-redux`, () => ({
-    useSelector: jest.fn(),
-    useDispatch: jest.fn(() => {}),
-  }));
 
   it(`Render 'CitiesList' should contain cities names from City const`, () => {
     const store = mockStore({
@@ -45,6 +33,7 @@ describe(`Test cities list`, () => {
         }
       }
     });
+
     render(
         <redux.Provider store={store}>
           <CitiesList />
@@ -54,30 +43,5 @@ describe(`Test cities list`, () => {
     expect(screen.getByText(/Moscow/i)).toBeInTheDocument();
     expect(screen.getByText(/Berlin/i)).toBeInTheDocument();
     expect(screen.getByText(/New York/i)).toBeInTheDocument();
-  });
-
-  it(`Render 'CitiesList' should change city in redux state on city tab click`, () => {
-    const store = mockStore({
-      CITY: {
-        city: {
-          "name": `Paris`,
-          "lat": 48.86471,
-          "lng": 2.35,
-          "zoom": 12
-        }
-      }
-    });
-
-    const dispatch = jest.fn();
-    redux.useDispatch.mockReturnValue(jest.fn());
-
-    render(
-        <redux.Provider store={store}>
-          <CitiesList />
-        </redux.Provider>
-    );
-    const tab = screen.getByTestId(`cityTab1`);
-    fireEvent.click(tab);
-    expect(dispatch).toBeCalled();
   });
 });
