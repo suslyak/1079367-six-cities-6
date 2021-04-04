@@ -106,3 +106,5 @@ export const AppRoute = {
 };
 
 export const COMMENT_MIN_CHARACTERS = 50;
+export const COMMENT_MAX_CHARACTERS = 300;
+export const API_ERROR_COLOR = `#ff7171`;
