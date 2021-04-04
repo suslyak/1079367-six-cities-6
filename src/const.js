@@ -87,3 +87,20 @@ export const emptyUser = {
   "is_pro": null,
   "name": null
 };
+
+export const APIRoute = {
+  "LOGIN": `/login`,
+  "LOGOUT": `/logout`,
+  "OFFERS": `/hotels`,
+  "NEAROFFERS": `nearby`,
+  "REVIEWS": `/comments`,
+  "FAVORITE": `/favorite`,
+};
+
+export const AppRoute = {
+  ROOT: `/`,
+  NOT_FOUND: `/404`,
+  LOGIN: `/login`,
+  ROOM: `/offer/:id`,
+  FAVORITES: `/favorites`,
+};

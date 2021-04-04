@@ -11,36 +11,36 @@ import {
   fillNearOffersList,
   fillFavoritesList} from "./action";
 
-import {AuthorizationStatus, emptyUser} from "../const";
+import {AuthorizationStatus, emptyUser, APIRoute, AppRoute} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
-  api.get(`/hotels`)
+  api.get(APIRoute.OFFERS)
     .then(({data}) => {
       dispatch(loadOffers(data));
     })
 );
 
 export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
-  api.get(`/hotels/${offerId}`)
+  api.get(`${APIRoute.OFFERS}/${offerId}`)
     .then(({data}) => {
       dispatch(fillOffersList(data));
     })
     .catch((error) => {
       if (error.response.status === 404) {
-        dispatch(redirectToRoute(`/404`));
+        dispatch(redirectToRoute(AppRoute.NOT_FOUND));
       }
     })
 );
 
 export const fetchReviewsList = (offerId) => (dispatch, _getState, api) => (
-  api.get(`/comments/${offerId}`)
+  api.get(`${APIRoute.REVIEWS}/${offerId}`)
     .then(({data}) => {
       dispatch(loadReviews(data));
     })
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
-  api.get(`/login`)
+  api.get(APIRoute.LOGIN)
     .then(({data}) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(authenticate(data));
@@ -49,61 +49,59 @@ export const checkAuth = () => (dispatch, _getState, api) => (
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password})
+  api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(authenticate(data));
     })
-    .then(() => dispatch(redirectToRoute(`/`)))
+    .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
-  api.get(`/logout`)
+  api.get(APIRoute.LOGOUT)
     .then(() => {
       dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH));
       dispatch(authenticate(emptyUser));
     })
-    .then(() => dispatch(redirectToRoute(`/`)))
+    .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
 );
 
 export const postReview = ({id, reviewFormData}) => (dispatch, _getState, api) => (
-  api.post(`/comments/${id}`, reviewFormData)
+  api.post(`${APIRoute.REVIEWS}/${id}`, reviewFormData)
     .then(({data}) => {
       dispatch(loadReviews(data));
     })
     .catch((error) => {
       if (error.response.status === 401) {
-        dispatch(redirectToRoute(`/login`));
+        dispatch(redirectToRoute(AppRoute.LOGIN));
       }
     })
 );
 
 export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
-  api.post(`/favorite/${id}/${status}`)
+  api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
   .then(({data}) => {
     dispatch(updateAllOffers(data));
     dispatch(updateFavorites(data));
   })
   .catch((error) => {
     if (error.response.status === 401) {
-      dispatch(redirectToRoute(`/login`));
+      dispatch(redirectToRoute(AppRoute.LOGIN));
     }
   })
 );
 
-export const fetchFavoritesList = () => (dispatch, _getState, api) => {
-  api.get(`/favorite`)
+export const fetchFavoritesList = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITE)
     .then(({data}) => {
       dispatch(setFavoritesIsLoaded(true));
       dispatch(fillFavoritesList(data));
-    });
-};
+    })
+);
 
 export const fetchNearOffersList = (offerId) => (dispatch, _getState, api) => (
-  api.get(`/hotels/${offerId}/nearby`)
+  api.get(`${APIRoute.OFFERS}/${offerId}/${APIRoute.NEAROFFERS}`)
     .then(({data}) => {
       dispatch(fillNearOffersList(data));
     })
 );
-
-
