@@ -59,7 +59,9 @@ const MainPage = () => {
               />
             </section>
           </div>
-          <NoOffers />
+          <NoOffers
+            city={city.name}
+          />
         </main>
       </div>
     );

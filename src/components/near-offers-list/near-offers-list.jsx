@@ -5,7 +5,7 @@ import PlaceCard from '../place-card/place-card';
 import {fetchNearOffersList} from "../../store/api-actions";
 import {PropValidation} from '../../const';
 
-const NearOffers = (props) => {
+const NearOffersList = (props) => {
   const {offerId} = props;
   const {nearOffers} = useSelector((state) => state.OFFERS);
   const dispatch = useDispatch();
@@ -32,9 +32,9 @@ const NearOffers = (props) => {
   );
 };
 
-NearOffers.propTypes = {
+NearOffersList.propTypes = {
   offerId: PropTypes.number,
   nearOffers: PropTypes.arrayOf(PropValidation.OFFER),
 };
 
-export default NearOffers;
+export default NearOffersList;

@@ -15,7 +15,7 @@ import {APIRoute} from '../../const.js';
 
 const api = createAPI(() => {}, () => {});
 
-describe(`Reducers work correctly`, () => {
+describe(`Reducer 'offers' work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(offers(undefined, {}))
       .toEqual({

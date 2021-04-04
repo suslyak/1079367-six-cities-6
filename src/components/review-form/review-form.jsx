@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {postReview} from '../../store/api-actions';
+import {COMMENT_MIN_CHARACTERS} from '../../const';
 
 const ReviewForm = (props) => {
   const {offerId} = props;
@@ -32,6 +33,7 @@ const ReviewForm = (props) => {
 
   return (
     <form onSubmit={handleFormSubmit} className="reviews__form form" action="#" method="post">
+      {reviewForm.comment}
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input onClick={handleStarClick} className="form__rating-input visually-hidden" name="rating" defaultValue={5} id="5-stars" type="radio" />
@@ -71,7 +73,7 @@ const ReviewForm = (props) => {
         id="review"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={``}
+        defaultValue={reviewForm.comment}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -80,7 +82,7 @@ const ReviewForm = (props) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled = {(reviewForm.comment.length < 50)}
+          disabled = {(reviewForm.comment.length < COMMENT_MIN_CHARACTERS)}
         >
           Submit
         </button>

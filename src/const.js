@@ -104,3 +104,5 @@ export const AppRoute = {
   ROOM: `/offer/:id`,
   FAVORITES: `/favorites`,
 };
+
+export const COMMENT_MIN_CHARACTERS = 50;
