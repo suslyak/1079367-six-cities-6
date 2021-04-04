@@ -35,8 +35,6 @@ describe(`Test reviews List`, () => {
       isReviewsLoaded: true,
     });
 
-    store.dispatch = jest.fn();
-
     const container = render(
         <redux.Provider store={store}>
           <ReviewsList
