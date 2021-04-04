@@ -67,7 +67,7 @@ export const logout = () => (dispatch, _getState, api) => (
 );
 
 export const postReview = ({id, reviewFormData}, onSuccess, onFail) => (dispatch, _getState, api) => (
-  api.post(`${APIRoute.REVIEWS}/${id}/slug`, reviewFormData)
+  api.post(`${APIRoute.REVIEWS}/${id}`, reviewFormData)
     .then(({data}) => {
       dispatch(loadReviews(data));
       onSuccess();
