@@ -9,7 +9,7 @@ import {redirect} from "./store/middlewares/redirect";
 import {Provider} from 'react-redux';
 import App from './components/app/app';
 import rootReducer from './store/root-reducer';
-import {requireAuthorization} from './store/action';
+import {requireAuthorization, setAuthorizationInProcess} from './store/action';
 import {checkAuth} from "./store/api-actions";
 import browserHistory from "./browser-history";
 import {AuthorizationStatus} from "./const";
@@ -29,6 +29,7 @@ const store = createStore(
     )
 );
 
+store.dispatch(setAuthorizationInProcess(true));
 store.dispatch(checkAuth());
 
 ReactDOM.render(

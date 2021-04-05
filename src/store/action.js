@@ -8,6 +8,7 @@ export const ActionType = {
   SET_OFFERS_IS_LOADED: `offers/setOffersIsLoaded`,
   SET_REVIEWS_IS_LOADED: `reviews/setReviewsIsLoaded`,
   SET_FAVORITES_IS_LOADED: `offers/setFavoritesIsLoaded`,
+  SET_AUTHORIZATHION_IN_PROCESS: `setAuthorizationInProcess`,
   LOAD_OFFERS: `offers/loadOffers`,
   UPDATE_ALLOFFERS: `offers/updateAllOffers`,
   UPDATE_OFFERS: `offers/updateOffers`,
@@ -85,6 +86,11 @@ export const setReviewsIsLoaded = (data) => ({
 
 export const setFavoritesIsLoaded = (data) => ({
   type: ActionType.SET_FAVORITES_IS_LOADED,
+  payload: data
+});
+
+export const setAuthorizationInProcess = (data) => ({
+  type: ActionType.SET_AUTHORIZATHION_IN_PROCESS,
   payload: data
 });
 

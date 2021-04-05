@@ -6,6 +6,7 @@ import {
   authenticate,
   redirectToRoute,
   setFavoritesIsLoaded,
+  setAuthorizationInProcess,
   updateFavorites,
   updateAllOffers,
   fillNearOffersList,
@@ -44,8 +45,11 @@ export const checkAuth = () => (dispatch, _getState, api) => (
     .then(({data}) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(authenticate(data));
+      dispatch(setAuthorizationInProcess(false));
     })
-    .catch(() => {})
+    .catch(() => {
+      dispatch(setAuthorizationInProcess(false));
+    })
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
