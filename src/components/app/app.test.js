@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import {createAPI} from "../../services/api";
 import {AuthorizationStatus, City, Sorting, emptyUser} from '../../const';
-import App from './application';
+import App from './app';
 
 
 const api = createAPI(() => {}, () => {});

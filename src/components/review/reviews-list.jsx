@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {fetchReviewsList} from "../../store/api-actions";
 import {setReviewsIsLoaded} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
-import Review from '../review/review';
+import Review from './review';
 
 const ReviewsList = (props) => {
   const {offerId} = props;
@@ -45,4 +45,3 @@ ReviewsList.propTypes = {
 };
 
 export default ReviewsList;
-

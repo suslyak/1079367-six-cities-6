@@ -1,7 +1,7 @@
 import {map} from './map';
 import {changeCurrentOffer} from '../action';
 
-describe(`Reducers work correctly`, () => {
+describe(`Reducer 'map' work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(map(undefined, {}))
       .toEqual({mouseHoverOffer: null});
