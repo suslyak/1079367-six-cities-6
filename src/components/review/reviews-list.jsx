@@ -5,7 +5,7 @@ import {fetchReviewsList} from "../../store/api-actions";
 import {setReviewsIsLoaded} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Review from './review';
-import {sortByDate, sortListCopy} from '../../utils.js';
+import {sortByDate, sortListCopy} from '../../utils/utils.js';
 
 const ReviewsList = (props) => {
   const {offerId} = props;
@@ -33,7 +33,7 @@ const ReviewsList = (props) => {
       ? <>
         <h2 className="reviews__title">Reviews · <span className="reviews__amount">{reviews.length}</span></h2>
         <ul className="reviews__list">
-          {sortedReviewsList.map((review, i) =>
+          {sortedReviewsList.slice(0, 10).map((review, i) =>
             <Review
               review={review}
               key={name + i}

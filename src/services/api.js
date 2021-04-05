@@ -4,11 +4,10 @@ const BACKEND_URL = `https://6.react.pages.academy/six-cities`;
 const REQUEST_TIMEOUT = 5000;
 
 const HttpCode = {
-  NOT_FOUND: 404,
   UNAUTHORIZED: 401
 };
 
-export const createAPI = (onUnauthorized, onNotFound) => {
+export const createAPI = (onUnauthorized, onError) => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -17,19 +16,17 @@ export const createAPI = (onUnauthorized, onNotFound) => {
 
   const onSuccess = (response) => response;
 
-  const onFail = (err) => {
-    const {response} = err;
-
-    if (response.status === HttpCode.NOT_FOUND) {
-      onNotFound();
-    }
+  const onFail = (error) => {
+    const {response} = error;
 
     if (response.status === HttpCode.UNAUTHORIZED) {
       onUnauthorized();
-      throw err;
+      throw error;
+    } else {
+      onError(`${error.response.data.error} (${error.response.statusText})`);
     }
 
-    throw err;
+    throw error;
   };
 
   api.interceptors.response.use(onSuccess, onFail);

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {changeCurrentOffer} from '../../store/action';
 import {PropValidation} from '../../const.js';
-import {SortingFilter, sortListCopy} from '../../utils.js';
+import {SortingFilter, sortListCopy} from '../../utils/utils.js';
 
 import PlaceCard from '../place-card/place-card.jsx';
 

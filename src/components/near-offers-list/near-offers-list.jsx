@@ -18,7 +18,7 @@ const NearOffersList = (props) => {
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {nearOffers.map((offer, i) =>
+        {nearOffers.slice(0, 3).map((offer, i) =>
           <PlaceCard
             onCardMouseOver={() => {}}
             key={name + i}

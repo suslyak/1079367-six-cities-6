@@ -51,7 +51,7 @@ const Offer = (props) => {
         <Header/>
         <main className="page__main page__main--property">
           <section className="property">
-            <h1>Loading offer</h1>
+            <h1 className="visually-hidden">Loading offer</h1>
             <LoadingScreen />
           </section>
         </main>
@@ -165,7 +165,7 @@ const Offer = (props) => {
           </div>
           <Map
             city={city}
-            offers={offers.concat(nearOffers)}
+            offers={offers.concat(nearOffers).slice(0, 4)}
             containerSpecifiedClass={`property__map`}
             currentOffer={offer}
             scrollZoom={false}
