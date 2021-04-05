@@ -70,7 +70,7 @@ export const logout = () => (dispatch, _getState, api) => (
     .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
 );
 
-export const postReview = ({id, reviewFormData}, onSuccess, onFail) => (dispatch, _getState, api) => (
+export const postReview = ({id, reviewFormData}, onSuccess = () => {}, onFail = () => {}) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, reviewFormData)
     .then(({data}) => {
       dispatch(loadReviews(data));
