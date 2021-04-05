@@ -13,11 +13,12 @@ import {requireAuthorization} from './store/action';
 import {checkAuth} from "./store/api-actions";
 import browserHistory from "./browser-history";
 import {AuthorizationStatus} from "./const";
+import {showSelfFadingRedToast} from "./utils/toast/toast.js";
 
 const api = createAPI(
     () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
-    () => {
-    // Временная заглушка;
+    (error) => {
+      showSelfFadingRedToast(error);
     });
 
 const store = createStore(

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {changeCurrentOffer} from '../../store/action';
 import {PropValidation} from '../../const.js';
-import {SortingFilter, sortListCopy} from '../../utils.js';
+import {SortingFilter, sortListCopy} from '../../utils/utils.js';
 
 import PlaceCard from '../place-card/place-card.jsx';
 
@@ -13,7 +13,7 @@ const OffersList = (props) => {
 
   const dispatch = useDispatch();
 
-  const sortOffersList = useMemo(
+  const sortedOffersList = useMemo(
       () => sortListCopy(offers, SortingFilter[currentOffersSortingType]),
       [currentOffersSortingType, offers]
   );
@@ -24,7 +24,7 @@ const OffersList = (props) => {
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {sortOffersList.map((offer, i) =>
+      {sortedOffersList.map((offer, i) =>
         <PlaceCard
           onCardMouseOver={() => handleCardMouseover(offer.id)}
           key={name + i}

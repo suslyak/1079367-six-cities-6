@@ -14,6 +14,10 @@ export const sortByRating = (a, b) => {
   return b.rating - a.rating;
 };
 
+export const sortByDate = (a, b) => {
+  return new Date(b.date) - new Date(a.date);
+};
+
 
 export const SortingFilter = {
   POPULAR: (items) => items,
