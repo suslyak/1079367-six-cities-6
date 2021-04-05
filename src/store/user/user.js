@@ -2,7 +2,7 @@ import {ActionType} from '../action';
 import {AuthorizationStatus, emptyUser} from '../../const';
 
 const initialState = {
-  authorizationStatus: AuthorizationStatus.AUTH,
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
   authorizationInProcess: false,
   AuthInfo: emptyUser
 };

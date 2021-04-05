@@ -1,12 +1,15 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import Header from '../header/header.jsx';
 import {useSelector, useDispatch} from 'react-redux';
-import {login} from "../../store/api-actions";
+import {login} from '../../store/api-actions';
+import {redirectToRoute} from '../../store/action';
+import {AuthorizationStatus, AppRoute} from '../../const';
 
 const Login = () => {
   const loginRef = useRef();
   const passwordRef = useRef();
   const {city} = useSelector((state) => state.CITY);
+  const {authorizationStatus} = useSelector((state) => state.USER);
   const dispatch = useDispatch();
 
   const handleSubmit = (evt) => {
@@ -17,6 +20,12 @@ const Login = () => {
       password: passwordRef.current.value,
     }));
   };
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.AUTH) {
+      dispatch(redirectToRoute(AppRoute.ROOT));
+    }
+  });
 
   return (
     <div className="page page--gray page--login">
