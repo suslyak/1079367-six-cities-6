@@ -14,6 +14,7 @@ describe(`Reducer 'user' work correctly`, () => {
     expect(user(undefined, {}))
       .toEqual({
         authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationInProcess: false,
         AuthInfo: emptyUser
       });
   });
@@ -21,6 +22,7 @@ describe(`Reducer 'user' work correctly`, () => {
   it(`Reducer should require authozrization`, () => {
     const state = {
       authorizationStatus: AuthorizationStatus.AUTH,
+      authorizationInProcess: false,
       AuthInfo: {
         "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
         "email": `keks@htmlacattdemy.ru`,
@@ -38,6 +40,7 @@ describe(`Reducer 'user' work correctly`, () => {
     expect(user(state, requireAuthorization))
       .toEqual({
         authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationInProcess: false,
         AuthInfo: {
           "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
@@ -51,6 +54,7 @@ describe(`Reducer 'user' work correctly`, () => {
   it(`Reducer should authenticate user properly`, () => {
     const state = {
       authorizationStatus: AuthorizationStatus.AUTH,
+      authorizationInProcess: false,
       AuthInfo: emptyUser
     };
 
@@ -68,6 +72,39 @@ describe(`Reducer 'user' work correctly`, () => {
     expect(user(state, authenticate))
       .toEqual({
         authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationInProcess: false,
+        AuthInfo: {
+          "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+          "email": `keks@htmlacattdemy.ru`,
+          "id": 1,
+          "is_pro": false,
+          "name": `keks`
+        }
+      });
+  });
+
+  it(`Reducer should set flag if authorization in process`, () => {
+    const state = {
+      authorizationStatus: AuthorizationStatus.AUTH,
+      authorizationInProcess: true,
+      AuthInfo: {
+        "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+        "email": `keks@htmlacattdemy.ru`,
+        "id": 1,
+        "is_pro": false,
+        "name": `keks`
+      }
+    };
+
+    const setAuthorizationInProcess = {
+      type: ActionType.SET_AUTHORIZATHION_IN_PROCESS,
+      payload: false
+    };
+
+    expect(user(state, setAuthorizationInProcess))
+      .toEqual({
+        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationInProcess: false,
         AuthInfo: {
           "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
@@ -91,7 +128,7 @@ describe(`Async operation work correctly`, () => {
 
     return checkAuthLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenCalledTimes(3);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.REQUIRED_AUTHORIZATION,
           payload: AuthorizationStatus.AUTH,
@@ -99,6 +136,10 @@ describe(`Async operation work correctly`, () => {
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.AUTHENTICATE,
           payload: emptyUser,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
+          type: ActionType.SET_AUTHORIZATHION_IN_PROCESS,
+          payload: false,
         });
       });
   });

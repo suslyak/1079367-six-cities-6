@@ -10,12 +10,12 @@ import {
   setOffersIsLoaded,
   setReviewsIsLoaded,
   setFavoritesIsLoaded,
+  setAuthorizationInProcess,
   changeSorting,
   changeCurrentOffer,
   requireAuthorization,
   authenticate,
   redirectToRoute,
-
   ActionType
 } from './action';
 import {AuthorizationStatus, Sorting} from '../const';
@@ -117,6 +117,15 @@ describe(`Action creators work correctly`, () => {
     };
 
     expect(setFavoritesIsLoaded(false)).toEqual(expectedAction);
+  });
+
+  it(`Action creator for setting authorization in process flag returns correct action`, () => {
+    const expectedAction = {
+      type: ActionType.SET_AUTHORIZATHION_IN_PROCESS,
+      payload: false,
+    };
+
+    expect(setAuthorizationInProcess(false)).toEqual(expectedAction);
   });
 
   it(`Action creator for require authorization returns correct action`, () => {
