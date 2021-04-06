@@ -21,10 +21,10 @@ describe(`Test user`, () => {
   it(`Render 'user' should contain user information if user is authenticated`, () => {
     const history = createMemoryHistory();
     const mockUser = {
-      "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+      "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
       "email": `keks@htmlacattdemy.ru`,
       "id": 1,
-      "is_pro": false,
+      "isPpro": false,
       "name": `keks`
     };
 

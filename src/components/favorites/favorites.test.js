@@ -29,10 +29,10 @@ const mockFavorites = [
 ];
 
 const mockUser = {
-  "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+  "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
   "email": `keks@htmlacattdemy.ru`,
   "id": 1,
-  "is_pro": false,
+  "isPro": false,
   "name": `keks`
 };
 

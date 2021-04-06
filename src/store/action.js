@@ -1,5 +1,3 @@
-import {City} from '../const.js';
-
 export const ActionType = {
   CHANGE_CITY: `city/changeCity`,
   FILL_OFFERS_LIST: `offers/fillOffersList`,
@@ -22,16 +20,9 @@ export const ActionType = {
 };
 
 export const changeCity = (city) => {
-  const newCity = {
-    "name": City[city].name,
-    "lat": City[city].coords[0],
-    "lng": City[city].coords[1],
-    "zoom": 12
-  };
-
   return {
     type: ActionType.CHANGE_CITY,
-    payload: newCity,
+    payload: city,
   };
 };
 

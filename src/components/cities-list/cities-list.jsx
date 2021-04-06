@@ -21,7 +21,7 @@ const CitiesList = () => {
             href= {item.name === city.name ? undefined : `#`}
             onClick={(evt) => {
               evt.preventDefault();
-              handleChangeCity(item.name);
+              handleChangeCity(City[item.name]);
             }
             }
           >

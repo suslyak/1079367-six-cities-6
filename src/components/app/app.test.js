@@ -23,12 +23,7 @@ describe(`Test routing`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": City[`Paris`].name,
-          "lat": City[`Paris`].coords[0],
-          "lng": City[`Paris`].coords[1],
-          "zoom": 12
-        }
+        city: City[`Paris`]
       },
       USER: {
         authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -65,12 +60,7 @@ describe(`Test routing`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": City[`Paris`].name,
-          "lat": City[`Paris`].coords[0],
-          "lng": City[`Paris`].coords[1],
-          "zoom": 12
-        }
+        city: City[`Paris`]
       },
       USER: {
         authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -95,12 +85,7 @@ describe(`Test routing`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": City[`Paris`].name,
-          "lat": City[`Paris`].coords[0],
-          "lng": City[`Paris`].coords[1],
-          "zoom": 12
-        }
+        city: City[`Paris`]
       },
       USER: {
         authorizationStatus: AuthorizationStatus.NO_AUTH,
@@ -136,20 +121,15 @@ describe(`Test routing`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": City[`Paris`].name,
-          "lat": City[`Paris`].coords[0],
-          "lng": City[`Paris`].coords[1],
-          "zoom": 12
-        }
+        city: City[`Paris`]
       },
       USER: {
         authorizationStatus: AuthorizationStatus.AUTH,
         AuthInfo: {
-          "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+          "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
           "id": 1,
-          "is_pro": false,
+          "isPro": false,
           "name": `keks`
         }
       },
@@ -179,12 +159,7 @@ describe(`Test routing`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": City[`Paris`].name,
-          "lat": City[`Paris`].coords[0],
-          "lng": City[`Paris`].coords[1],
-          "zoom": 12
-        }
+        city: City[`Paris`]
       },
       USER: {
         authorizationStatus: AuthorizationStatus.NO_AUTH,

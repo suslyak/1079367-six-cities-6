@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropValidation} from '../../const.js';
+import propTypes from 'prop-types';
 
 const NoOffers = (props) => {
   const {city} = props;
@@ -19,7 +19,7 @@ const NoOffers = (props) => {
 };
 
 NoOffers.propTypes = {
-  city: PropValidation.CITY,
+  city: propTypes.string.isRequired,
 };
 
 export default NoOffers;

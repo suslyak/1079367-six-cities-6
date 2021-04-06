@@ -25,31 +25,31 @@ const mockOffer = {
     "name": `Amsterdam`
   },
   "host": {
-    "avatar_url": `img/avatar-max.jpg`,
+    "avatarUrl": `img/avatar-max.jpg`,
     "id": 1,
-    "is_pro": false,
+    "isPro": false,
     "name": `Max`
   },
   "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
   "description": `room offer`,
   "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
   "id": 1,
-  "max_adults": 40,
+  "maxAdults": 40,
   "title": `The house among olive`,
   "goods": [`Breakfast`],
-  "is_premium": false,
-  "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+  "isPremium": false,
+  "previewImage": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
   "price": 169,
-  "is_favorite": false,
+  "isFavorite": false,
   "rating": 3.1,
   "type": `room`
 };
 
 const mockUser = {
-  "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+  "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
   "email": `keks@htmlacattdemy.ru`,
   "id": 1,
-  "is_pro": false,
+  "isPro": false,
   "name": `keks`
 };
 

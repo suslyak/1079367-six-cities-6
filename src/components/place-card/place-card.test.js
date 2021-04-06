@@ -22,22 +22,22 @@ const mockOffer = {
     "name": `Amsterdam`
   },
   "host": {
-    "avatar_url": `img/avatar-max.jpg`,
+    "avatarUrl": `img/avatar-max.jpg`,
     "id": 1,
-    "is_pro": false,
+    "isPro": false,
     "name": `Max`
   },
   "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
   "description": `room offer`,
   "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
   "id": 1,
-  "max_adults": 40,
+  "maxAdults": 40,
   "title": `The house among olive`,
   "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
-  "is_premium": false,
-  "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+  "isPremium": false,
+  "previewImage": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
   "price": 169,
-  "is_favorite": false,
+  "isFavorite": false,
   "rating": 4,
   "type": `room`
 };
@@ -90,7 +90,7 @@ describe(`Test place card`, () => {
     const offer = Object.assign(
         {},
         mockOffer,
-        {"is_premium": true}
+        {"isPremium": true}
     );
     const handleCardMouseover = jest.fn();
 
@@ -113,7 +113,7 @@ describe(`Test place card`, () => {
     const offer = Object.assign(
         {},
         mockOffer,
-        {"is_favorite": true}
+        {"isFavorite": true}
     );
     const handleCardMouseover = jest.fn();
 

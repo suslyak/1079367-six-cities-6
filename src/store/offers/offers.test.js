@@ -13,6 +13,8 @@ import {
 } from '../api-actions';
 import {APIRoute} from '../../const.js';
 
+import Adapter from '../../services/adapter';
+
 const api = createAPI(() => {}, () => {});
 
 describe(`Reducer 'offers' work correctly`, () => {
@@ -338,18 +340,100 @@ describe(`Async operation work correctly`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const fakeOffers = [
-      {city: {name: `Paris`}, images: [], title: `The house among olive `, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Paris`}, images: [], title: `Waterfront with extraordinary view`, goods: [`Air conditioning`, `Laptop friendly workspace`]},
-      {city: {name: `Paris`}, images: [], title: `Penthouse, 4-5 rooms + 5 balconies`, goods: [`Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Paris`}, images: [], title: `The house among olive `, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Cologne`}, images: [], title: `The Joshua Tree House`, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`]},
-      {city: {name: `Cologne`}, images: [], title: `Penthouse, 4-5 rooms + 5 balconies`, goods: [`Breakfast`, `Air conditioning`, `Washer`]},
-      {city: {name: `Cologne`}, images: [], title: `Nice, cozy, warm big bed apartment`, goods: [`Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Amsterdam`}, images: [], title: `The Joshua Tree House`, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`]},
-      {city: {name: `Amsterdam`}, images: [], title: `Penthouse, 4-5 rooms + 5 balconies`, goods: [`Breakfast`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Amsterdam`}, images: [], title: `Amazing and Extremely Central Flat`, goods: [`Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Hamburg`}, images: [], title: `Canal View Prinsengracht`, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]}
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The house among olive`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 169,
+        "is_favorite": false,
+        "rating": 3,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The Joshua Tree House`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 250,
+        "is_favorite": false,
+        "rating": 5,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `Canal View Prinsengracht`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 450,
+        "is_favorite": false,
+        "rating": 4,
+        "type": `room`
+      }
     ];
+
+    const adaptedFakeOffers = fakeOffers.map((item) => Adapter.OFFER.fromApi(item));
+
     const offersLoader = fetchOffersList();
 
     apiMock
@@ -362,7 +446,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_OFFERS,
-          payload: fakeOffers,
+          payload: adaptedFakeOffers,
         });
       });
   });
@@ -370,9 +454,37 @@ describe(`Async operation work correctly`, () => {
   it(`Should make a correct API call to /hotels/:id`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const fakeOffer = [
-      {city: {name: `Amsterdam`}, images: [], title: `The Joshua Tree House`, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`]},
-    ];
+    const fakeOffer =
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The house among olive`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 169,
+        "is_favorite": false,
+        "rating": 3,
+        "type": `room`
+      };
     const offerLoader = fetchOffer(10);
 
     apiMock
@@ -385,7 +497,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.FILL_OFFERS_LIST,
-          payload: fakeOffer,
+          payload: [Adapter.OFFER.fromApi(fakeOffer)],
         });
       });
   });
@@ -394,10 +506,99 @@ describe(`Async operation work correctly`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const fakeOffers = [
-      {city: {name: `Paris`}, images: [], title: `The house among olive `, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Paris`}, images: [], title: `Waterfront with extraordinary view`, goods: [`Air conditioning`, `Laptop friendly workspace`]},
-      {city: {name: `Paris`}, images: [], title: `Penthouse, 4-5 rooms + 5 balconies`, goods: [`Air conditioning`, `Laptop friendly workspace`, `Washer`]},
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The house among olive`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 169,
+        "is_favorite": false,
+        "rating": 3,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The Joshua Tree House`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 250,
+        "is_favorite": false,
+        "rating": 5,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `Canal View Prinsengracht`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 450,
+        "is_favorite": false,
+        "rating": 4,
+        "type": `room`
+      }
     ];
+
+    const adaptedFakeOffers = fakeOffers.map((item) => Adapter.OFFER.fromApi(item));
     const nearOffersLoader = fetchNearOffersList(10);
 
     apiMock
@@ -410,7 +611,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.FILL_NEAR_OFFERS_LIST,
-          payload: fakeOffers,
+          payload: adaptedFakeOffers,
         });
       });
   });
@@ -419,10 +620,98 @@ describe(`Async operation work correctly`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const fakeFavorites = [
-      {city: {name: `Paris`}, isFavorite: true, images: [], title: `The house among olive `, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]},
-      {city: {name: `Cologne`}, isFavorite: true, images: [], title: `The Joshua Tree House`, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`]},
-      {city: {name: `Amsterdam`}, isFavorite: true, images: [], title: `Penthouse, 4-5 rooms + 5 balconies`, goods: [`Breakfast`, `Laptop friendly workspace`, `Washer`]}
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The house among olive`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 169,
+        "is_favorite": false,
+        "rating": 3,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `The Joshua Tree House`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 250,
+        "is_favorite": false,
+        "rating": 5,
+        "type": `room`
+      },
+      {
+        "bedrooms": 1,
+        "city": {
+          "location": {
+            "latitude": 52.370216,
+            "longitude": 4.895168,
+            "zoom": 10
+          },
+          "name": `Amsterdam`
+        },
+        "host": {
+          "avatar_url": `img/avatar-max.jpg`,
+          "id": 1,
+          "is_pro": false,
+          "name": `Max`
+        },
+        "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+        "description": `room offer`,
+        "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+        "id": 1,
+        "max_adults": 40,
+        "title": `Canal View Prinsengracht`,
+        "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+        "is_premium": false,
+        "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+        "price": 450,
+        "is_favorite": false,
+        "rating": 4,
+        "type": `room`
+      }
     ];
+    const adaptedFakeFavorites = fakeFavorites.map((item) => Adapter.OFFER.fromApi(item));
     const favoritesLoader = fetchFavoritesList();
 
     apiMock
@@ -440,7 +729,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.FILL_FAVORITES_LIST,
-          payload: fakeFavorites,
+          payload: adaptedFakeFavorites,
         });
       });
   });
@@ -448,9 +737,37 @@ describe(`Async operation work correctly`, () => {
   it(`Should make a correct API call to /favorite/:id/:status`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const fakeOffer = [
-      {city: {name: `Paris`}, isFavorite: true, images: [], title: `The house among olive `, goods: [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`]}
-    ];
+    const fakeOffer = {
+      "bedrooms": 1,
+      "city": {
+        "location": {
+          "latitude": 52.370216,
+          "longitude": 4.895168,
+          "zoom": 10
+        },
+        "name": `Amsterdam`
+      },
+      "host": {
+        "avatar_url": `img/avatar-max.jpg`,
+        "id": 1,
+        "is_pro": false,
+        "name": `Max`
+      },
+      "images": [`img/apartment-01.jpg`, `img/apartment-01.jpg`, `img/apartment-01.jpg`],
+      "description": `room offer`,
+      "location": {"latitude": 48.86471, "longitude": 2.35, "zoom": 10},
+      "id": 1,
+      "max_adults": 40,
+      "title": `The house among olive`,
+      "goods": [`Breakfast`, `Air conditioning`, `Laptop friendly workspace`, `Washer`],
+      "is_premium": false,
+      "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/hotel/16.jpg`,
+      "price": 169,
+      "is_favorite": false,
+      "rating": 3,
+      "type": `room`
+    };
+
     const changeFavoriteLoader = changeFavorite({id: 10, status: 1});
 
     apiMock
@@ -463,12 +780,12 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.UPDATE_ALLOFFERS,
-          payload: fakeOffer,
+          payload: Adapter.OFFER.fromApi(fakeOffer),
         });
 
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.UPDATE_FAVORITES,
-          payload: fakeOffer,
+          payload: Adapter.OFFER.fromApi(fakeOffer),
         });
       });
   });

@@ -6,6 +6,7 @@ import {
 } from '../action';
 import {fetchReviewsList, postReview} from '../api-actions';
 import {APIRoute} from '../../const.js';
+import Adapter from '../../services/adapter';
 
 const api = createAPI(() => {}, () => {});
 
@@ -95,16 +96,17 @@ describe(`Async operation work correctly`, () => {
         date: `2021-03-07T08:04:28.647Z`,
         id: 1,
         rating: 2,
-        user: {id: 18, isPro: true, name: `Sophie`, avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/9.jpg`}
+        user: {"id": 18, "is_pro": true, "name": `Sophie`, "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/9.jpg`}
       },
       {
         comment: `What an amazing view! The house is stunning and in an amazing location. The large glass wall had an amazing view of the river!`,
         date: `2021-03-07T08:04:28.647Z`,
         id: 2,
         rating: 4,
-        user: {id: 15, isPro: false, name: `Kendall`, avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
+        user: {"id": 15, "is_pro": false, "name": `Kendall`, "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
       }
     ];
+    const adaptedfakeReviews = fakeReviews.map((item) => Adapter.REVIEW.fromApi(item));
     const reviewsLoader = fetchReviewsList(10);
 
     apiMock
@@ -117,7 +119,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_REVIEWS,
-          payload: fakeReviews,
+          payload: adaptedfakeReviews,
         });
       });
   });
@@ -137,24 +139,24 @@ describe(`Async operation work correctly`, () => {
         date: `2021-03-07T08:04:28.647Z`,
         id: 1,
         rating: 2,
-        user: {id: 18, isPro: true, name: `Sophie`, avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/9.jpg`}
+        user: {"id": 18, "is_pro": true, "name": `Sophie`, "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/9.jpg`}
       },
       {
         comment: `What an amazing view! The house is stunning and in an amazing location. The large glass wall had an amazing view of the river!`,
         date: `2021-03-07T08:04:28.647Z`,
         id: 2,
         rating: 4,
-        user: {id: 15, isPro: false, name: `Kendall`, avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
+        user: {"id": 15, "is_pro": false, "name": `Kendall`, "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
       },
       {
         comment: `Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!  Meow!`,
         date: `2021-03-07T08:04:28.647Z`,
         id: 3,
         rating: 4,
-        user: {id: 777, isPro: false, name: `keks`, avatarUrl: `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
+        user: {"id": 15, "is_pro": false, "name": `keks`, "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
       }
     ];
-
+    const adaptedfakeReviews = fakeReviews.map((item) => Adapter.REVIEW.fromApi(item));
     const reviewPoster = postReview({id: 10, reviewFormData: fakeReviewFormData});
 
     apiMock
@@ -167,7 +169,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_REVIEWS,
-          payload: fakeReviews,
+          payload: adaptedfakeReviews,
         });
       });
   });

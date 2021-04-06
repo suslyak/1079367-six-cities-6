@@ -6,6 +6,7 @@ import {
 } from '../action';
 import {checkAuth, login, logout} from '../api-actions';
 import {AuthorizationStatus, emptyUser, APIRoute, AppRoute} from '../../const.js';
+import Adapter from '../../services/adapter';
 
 const api = createAPI(() => {}, () => {});
 
@@ -24,10 +25,10 @@ describe(`Reducer 'user' work correctly`, () => {
       authorizationStatus: AuthorizationStatus.AUTH,
       authorizationInProcess: false,
       AuthInfo: {
-        "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+        "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
         "email": `keks@htmlacattdemy.ru`,
         "id": 1,
-        "is_pro": false,
+        "isPro": false,
         "name": `keks`
       }
     };
@@ -42,10 +43,10 @@ describe(`Reducer 'user' work correctly`, () => {
         authorizationStatus: AuthorizationStatus.NO_AUTH,
         authorizationInProcess: false,
         AuthInfo: {
-          "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+          "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
           "id": 1,
-          "is_pro": false,
+          "isPro": false,
           "name": `keks`
         }
       });
@@ -61,10 +62,10 @@ describe(`Reducer 'user' work correctly`, () => {
     const authenticate = {
       type: ActionType.AUTHENTICATE,
       payload: {
-        "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+        "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
         "email": `keks@htmlacattdemy.ru`,
         "id": 1,
-        "is_pro": false,
+        "isPro": false,
         "name": `keks`
       }
     };
@@ -74,10 +75,10 @@ describe(`Reducer 'user' work correctly`, () => {
         authorizationStatus: AuthorizationStatus.AUTH,
         authorizationInProcess: false,
         AuthInfo: {
-          "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+          "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
           "id": 1,
-          "is_pro": false,
+          "isPro": false,
           "name": `keks`
         }
       });
@@ -88,10 +89,10 @@ describe(`Reducer 'user' work correctly`, () => {
       authorizationStatus: AuthorizationStatus.AUTH,
       authorizationInProcess: true,
       AuthInfo: {
-        "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+        "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
         "email": `keks@htmlacattdemy.ru`,
         "id": 1,
-        "is_pro": false,
+        "isPro": false,
         "name": `keks`
       }
     };
@@ -106,10 +107,10 @@ describe(`Reducer 'user' work correctly`, () => {
         authorizationStatus: AuthorizationStatus.AUTH,
         authorizationInProcess: false,
         AuthInfo: {
-          "avatar_url": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
+          "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/3.jpg`,
           "email": `keks@htmlacattdemy.ru`,
           "id": 1,
-          "is_pro": false,
+          "isPro": false,
           "name": `keks`
         }
       });
@@ -117,7 +118,7 @@ describe(`Reducer 'user' work correctly`, () => {
 });
 
 describe(`Async operation work correctly`, () => {
-  it(`Should make a correct API call to /login`, () => {
+  it(`Should make a correct API call to /login to check auth`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const checkAuthLoader = checkAuth();
@@ -135,7 +136,7 @@ describe(`Async operation work correctly`, () => {
         });
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.AUTHENTICATE,
-          payload: emptyUser,
+          payload: Adapter.USER.fromApi(emptyUser)
         });
         expect(dispatch).toHaveBeenNthCalledWith(3, {
           type: ActionType.SET_AUTHORIZATHION_IN_PROCESS,
@@ -172,7 +173,7 @@ describe(`Async operation work correctly`, () => {
 
         expect(dispatch).toHaveBeenNthCalledWith(2, {
           type: ActionType.AUTHENTICATE,
-          payload: fakeUserData,
+          payload: Adapter.USER.fromApi(fakeUserData),
         });
 
         expect(dispatch).toHaveBeenNthCalledWith(3, {

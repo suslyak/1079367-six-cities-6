@@ -12,19 +12,21 @@ import {
   fillNearOffersList,
   fillFavoritesList} from "./action";
 
+import Adapter from '../services/adapter';
+
 import {AuthorizationStatus, emptyUser, APIRoute, AppRoute} from "../const";
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
     .then(({data}) => {
-      dispatch(loadOffers(data));
+      dispatch(loadOffers(data.map((item) => Adapter.OFFER.fromApi(item))));
     })
 );
 
 export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${offerId}`)
     .then(({data}) => {
-      dispatch(fillOffersList(data));
+      dispatch(fillOffersList(Adapter.OFFER.fromApi(data)));
     })
     .catch((error) => {
       if (error.response.status === 404) {
@@ -36,7 +38,7 @@ export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
 export const fetchReviewsList = (offerId) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.REVIEWS}/${offerId}`)
     .then(({data}) => {
-      dispatch(loadReviews(data));
+      dispatch(loadReviews(data.map((item) => Adapter.REVIEW.fromApi(item))));
     })
 );
 
@@ -44,7 +46,7 @@ export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(({data}) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
-      dispatch(authenticate(data));
+      dispatch(authenticate(Adapter.USER.fromApi(data)));
       dispatch(setAuthorizationInProcess(false));
     })
     .catch(() => {
@@ -56,7 +58,7 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
   api.post(APIRoute.LOGIN, {email, password})
     .then(({data}) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
-      dispatch(authenticate(data));
+      dispatch(authenticate(Adapter.USER.fromApi(data)));
     })
     .then(() => dispatch(redirectToRoute(AppRoute.ROOT)))
 );
@@ -73,7 +75,7 @@ export const logout = () => (dispatch, _getState, api) => (
 export const postReview = ({id, reviewFormData}, onSuccess = () => {}, onFail = () => {}) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, reviewFormData)
     .then(({data}) => {
-      dispatch(loadReviews(data));
+      dispatch(loadReviews(data.map((item) => Adapter.REVIEW.fromApi(item))));
       onSuccess();
     })
     .catch((error) => {
@@ -87,8 +89,8 @@ export const postReview = ({id, reviewFormData}, onSuccess = () => {}, onFail = 
 export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.FAVORITE}/${id}/${status}`)
   .then(({data}) => {
-    dispatch(updateAllOffers(data));
-    dispatch(updateFavorites(data));
+    dispatch(updateAllOffers(Adapter.OFFER.fromApi(data)));
+    dispatch(updateFavorites(Adapter.OFFER.fromApi(data)));
   })
   .catch((error) => {
     if (error.response.status === 401) {
@@ -101,13 +103,13 @@ export const fetchFavoritesList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FAVORITE)
     .then(({data}) => {
       dispatch(setFavoritesIsLoaded(true));
-      dispatch(fillFavoritesList(data));
+      dispatch(fillFavoritesList(data.map((item) => Adapter.OFFER.fromApi(item))));
     })
 );
 
 export const fetchNearOffersList = (offerId) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${offerId}/${APIRoute.NEAROFFERS}`)
     .then(({data}) => {
-      dispatch(fillNearOffersList(data));
+      dispatch(fillNearOffersList(data.map((item) => Adapter.OFFER.fromApi(item))));
     })
 );

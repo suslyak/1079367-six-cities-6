@@ -7,7 +7,7 @@ const mockReview = {
   date: `2021-03-07T08:04:28.647Z`,
   id: 2,
   rating: 4,
-  user: {"id": 15, "is_pro": false, "name": `Kendall`, "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
+  user: {"id": 15, "isPro": false, "name": `Kendall`, "avatarUrl": `https://assets.htmlacademy.ru/intensives/javascript-3/avatar/6.jpg`}
 };
 describe(`Test review`, () => {
   it(`Render 'Review' should contain review info from props`, () => {

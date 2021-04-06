@@ -6,6 +6,7 @@ import * as redux from 'react-redux';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import Login from './login';
+import {City, AuthorizationStatus, emptyUser} from '../../const';
 
 
 const middlewares = [thunk];
@@ -31,12 +32,12 @@ describe(`Test Login`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       CITY: {
-        city: {
-          "name": `Moscow`,
-          "lat": 48.86471,
-          "lng": 2.35,
-          "zoom": 12
-        }
+        city: City[`Paris`]
+      },
+      USER: {
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+        authorizationInProcess: false,
+        AuthInfo: emptyUser
       }
     });
 
@@ -50,7 +51,7 @@ describe(`Test Login`, () => {
 
     expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
-    expect(screen.getByText(/Moscow/i)).toBeInTheDocument();
+    expect(screen.getByText(/Paris/i)).toBeInTheDocument();
   });
 });
 

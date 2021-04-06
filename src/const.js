@@ -14,22 +14,22 @@ export const PropValidation = {
     "description": PropTypes.string.isRequired,
     "goods": PropTypes.arrayOf(PropTypes.string),
     "host": PropTypes.shape({
-      "avatar_url": PropTypes.string,
+      "avatarUrl": PropTypes.string,
       "id": PropTypes.number.isRequired,
-      "is_pro": PropTypes.bool.isRequired,
+      "isPro": PropTypes.bool.isRequired,
       "name": PropTypes.string.isRequired
     }),
     "id": PropTypes.number.isRequired,
     "images": PropTypes.arrayOf(PropTypes.string),
-    "is_favorite": PropTypes.bool.isRequired,
-    "is_premium": PropTypes.bool.isRequired,
+    "isFavorite": PropTypes.bool.isRequired,
+    "isPremium": PropTypes.bool.isRequired,
     "location": PropTypes.shape({
       "latitude": PropTypes.number.isRequired,
       "longitude": PropTypes.number.isRequired,
       "zoom": PropTypes.number.isRequired
     }),
-    "max_adults": PropTypes.number.isRequired,
-    "preview_image": PropTypes.string.isRequired,
+    "maxAdults": PropTypes.number.isRequired,
+    "previewImage": PropTypes.string.isRequired,
     "price": PropTypes.number.isRequired,
     "rating": PropTypes.number,
     "title": PropTypes.string.isRequired,
@@ -41,9 +41,9 @@ export const PropValidation = {
     "id": PropTypes.number.isRequired,
     "rating": PropTypes.number.isRequired,
     "user": PropTypes.shape({
-      "avatar_url": PropTypes.string,
+      "avatarUrl": PropTypes.string,
       "id": PropTypes.number.isRequired,
-      "is_pro": PropTypes.bool.isRequired,
+      "isPro": PropTypes.bool.isRequired,
       "name": PropTypes.string.isRequired
     })
   }),
@@ -60,12 +60,12 @@ export const PropValidation = {
 };
 
 export const City = {
-  "Paris": {name: `Paris`, coords: [48.86471, 2.35]},
-  "Cologne": {name: `Cologne`, coords: [50.93753, 6.96]},
-  "Brussels": {name: `Brussels`, coords: [50.85034, 4.35]},
-  "Amsterdam": {name: `Amsterdam`, coords: [52.38333, 4.9]},
-  "Hamburg": {name: `Hamburg`, coords: [53.55108, 10]},
-  "Dusseldorf": {name: `Dusseldorf`, coords: [51.22172, 6.77]}
+  "Paris": {name: `Paris`, location: {latitude: 48.86471, longitude: 2.35, zoom: 12}},
+  "Cologne": {name: `Cologne`, location: {latitude: 50.93753, longitude: 6.96, zoom: 12}},
+  "Brussels": {name: `Brussels`, location: {latitude: 50.85034, longitude: 4.35, zoom: 12}},
+  "Amsterdam": {name: `Amsterdam`, location: {latitude: 52.38333, longitude: 4.9, zoom: 12}},
+  "Hamburg": {name: `Hamburg`, location: {latitude: 53.55108, longitude: 10, zoom: 12}},
+  "Dusseldorf": {name: `Dusseldorf`, location: {latitude: 51.22172, longitude: 6.77, zoom: 12}}
 };
 
 export const Sorting = {
@@ -81,10 +81,10 @@ export const AuthorizationStatus = {
 };
 
 export const emptyUser = {
-  "avatar_url": null,
+  "avatarUrl": null,
   "email": null,
   "id": null,
-  "is_pro": null,
+  "isPro": null,
   "name": null
 };
 

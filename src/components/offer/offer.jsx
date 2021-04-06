@@ -13,12 +13,11 @@ import {AuthorizationStatus} from '../../const';
 
 const Offer = (props) => {
   const {id} = props;
-  const {city} = useSelector((state) => state.CITY);
   const {offers, allOffers, nearOffers} = useSelector((state) => state.OFFERS);
   const {authorizationStatus} = useSelector((state) => state.USER);
   const offerId = parseInt(id, 10);
   let offer = offers.find((item) => item.id === offerId);
-  const inBookmarksInitialState = offer ? offer.is_favorite : false;
+  const inBookmarksInitialState = offer ? offer.isFavorite : false;
   const dispatch = useDispatch();
 
   const [inBookmarks, setInbookmarks] = useState(inBookmarksInitialState);
@@ -41,7 +40,7 @@ const Offer = (props) => {
         dispatch(fetchOffer(offerId));
       }
     } else {
-      setInbookmarks(offer.is_favorite);
+      setInbookmarks(offer.isFavorite);
     }
   }, [offers, id]);
 
@@ -80,7 +79,7 @@ const Offer = (props) => {
           }
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer.is_premium
+              {offer.isPremium
                 ? <div className="property__mark">
                   <span>Premium</span>
                 </div>
@@ -116,7 +115,7 @@ const Offer = (props) => {
                   {offer.bedrooms}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {offer.max_adults}
+                  {offer.maxAdults}
                 </li>
               </ul>
               <div className="property__price">
@@ -141,8 +140,8 @@ const Offer = (props) => {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${offer.host.is_pro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
-                    <img className="property__avatar user__avatar" src={offer.host.avatar_url} width={74} height={74} alt="Host avatar" />
+                  <div className={`property__avatar-wrapper ${offer.host.isPro ? `property__avatar-wrapper--pro` : ``} user__avatar-wrapper`}>
+                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width={74} height={74} alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
                     {offer.host.name}
@@ -164,7 +163,7 @@ const Offer = (props) => {
             </div>
           </div>
           <Map
-            city={city}
+            city={offer.city}
             offers={offers.concat(nearOffers).slice(0, 4)}
             containerSpecifiedClass={`property__map`}
             currentOffer={offer}

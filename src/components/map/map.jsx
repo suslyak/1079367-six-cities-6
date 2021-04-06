@@ -32,8 +32,8 @@ const Map = (props) => {
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
       center: {
-        lat: city.lat,
-        lng: city.lng
+        lat: city.location.latitude,
+        lng: city.location.longitude
       },
       zoom: 12,
       scrollWheelZoom: scrollZoom,
@@ -69,7 +69,14 @@ const Map = (props) => {
 };
 
 Map.propTypes = {
-  city: PropValidation.CITY,
+  city: PropTypes.shape({
+    location: PropTypes.shape({
+      latitude: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired
+    }),
+    name: PropTypes.string.isRequired,
+  }),
   offers: PropTypes.arrayOf(PropValidation.OFFER),
   containerSpecifiedClass: PropTypes.string,
   currentOffer: PropValidation.OFFER,

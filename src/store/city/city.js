@@ -4,12 +4,7 @@ import {City} from '../../const.js';
 const initialCity = City[`Paris`];
 
 const initialState = {
-  city: {
-    "name": initialCity.name,
-    "lat": initialCity.coords[0],
-    "lng": initialCity.coords[1],
-    "zoom": 12
-  }
+  city: initialCity
 };
 
 const city = (state = initialState, action) => {
