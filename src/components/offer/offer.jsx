@@ -10,6 +10,7 @@ import {fetchOffer, changeFavorite} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AuthorizationStatus} from '../../const';
+import {nanoid} from 'nanoid';
 
 const Offer = (props) => {
   const {id} = props;
@@ -70,8 +71,8 @@ const Offer = (props) => {
             ? <>
               <div className="property__gallery-container container">
                 <div className="property__gallery">
-                  {offer.images.slice(0, 6).map((offerImage, i) =>
-                    <div className="property__image-wrapper" key={name + i}>
+                  {offer.images.slice(0, 6).map((offerImage) =>
+                    <div className="property__image-wrapper" key={nanoid(10)}>
                       <img className="property__image" src={offerImage} alt="Place image" />
                     </div>)
                   }
@@ -130,8 +131,8 @@ const Offer = (props) => {
                   <div className="property__inside">
                     <h2 className="property__inside-title">What&apos;s inside</h2>
                     <ul className="property__inside-list">
-                      {offer.goods.map((good, i) =>
-                        <li className="property__inside-item" key={name + i}>
+                      {offer.goods.map((good) =>
+                        <li className="property__inside-item" key={nanoid(10)}>
                           {good}
                         </li>)
                       }

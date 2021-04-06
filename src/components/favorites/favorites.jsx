@@ -9,6 +9,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchFavoritesList} from '../../store/api-actions';
 import {setFavoritesIsLoaded} from '../../store/action';
 import {PropValidation, City} from '../../const.js';
+import {nanoid} from 'nanoid';
 
 const Favorites = () => {
   const {favorites, isFavoritesLoaded} = useSelector((state) => state.OFFERS);
@@ -67,12 +68,12 @@ const Favorites = () => {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {cities.map((city, i) => {
+              {cities.map((city) => {
                 const cityOffers = favorites.filter((offer) => offer.city.name === city);
                 return (
                   cityOffers.length
                     ?
-                    <li className="favorites__locations-items" key={name + i}>
+                    <li className="favorites__locations-items" key={nanoid(10)}>
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
                           <a className="locations__item-link" href="#">

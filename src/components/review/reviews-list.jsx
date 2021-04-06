@@ -6,6 +6,7 @@ import {setReviewsIsLoaded} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Review from './review';
 import {sortByDate, sortListCopy} from '../../utils/utils.js';
+import {nanoid} from 'nanoid';
 
 const ReviewsList = (props) => {
   const {offerId} = props;
@@ -36,7 +37,7 @@ const ReviewsList = (props) => {
           {sortedReviewsList.slice(0, 10).map((review, i) =>
             <Review
               review={review}
-              key={name + i}
+              key={nanoid(10)}
             />
           )}
         </ul>

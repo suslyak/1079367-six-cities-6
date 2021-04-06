@@ -21,6 +21,7 @@ npm i react@16.12 -E
 * redux-devtools-extension@2.13
 * leaflet@1.7.1
 * reselect@4
+* nanoid@3.1
 
 ## devDependencies
 

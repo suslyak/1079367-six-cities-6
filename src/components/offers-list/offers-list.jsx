@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {changeCurrentOffer} from '../../store/action';
 import {PropValidation} from '../../const.js';
 import {SortingFilter, sortListCopy} from '../../utils/utils.js';
-
+import {nanoid} from 'nanoid';
 import PlaceCard from '../place-card/place-card.jsx';
 
 const OffersList = (props) => {
@@ -24,10 +24,10 @@ const OffersList = (props) => {
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {sortedOffersList.map((offer, i) =>
+      {sortedOffersList.map((offer) =>
         <PlaceCard
           onCardMouseOver={() => handleCardMouseover(offer.id)}
-          key={name + i}
+          key={nanoid(10)}
           offer={offer}
           specifiedArticleClass={`cities__place-card`}
           specifiedImageWrapperClass={`cities__image-wrapper`}
