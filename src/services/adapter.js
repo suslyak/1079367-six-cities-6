@@ -26,34 +26,6 @@ const offerFromApi = (offer) => {
   return adaptedOffer;
 };
 
-const offerToApi = (offer) => {
-  const adaptedOffer = Object.assign(
-      {},
-      offer,
-      {
-        "host": Object.assign(
-            {},
-            offer.host,
-            {
-              "avatar_url": offer.host.avatarUrl,
-              "is_pro": offer.host.isPro
-            }),
-        "is_favorite": offer.isFavorite,
-        "is_premium": offer.isPremium,
-        "max_adults": offer.maxAdults,
-        "preview_image": offer.previewImage
-      });
-
-  delete adaptedOffer.host.avatarUrl;
-  delete adaptedOffer.host.isPro;
-  delete adaptedOffer.isFavorite;
-  delete adaptedOffer.isPremium;
-  delete adaptedOffer.maxAdults;
-  delete adaptedOffer.previewImage;
-
-  return adaptedOffer;
-};
-
 const userFromApi = (user) => {
   const adaptedUser = Object.assign(
       {},
@@ -91,38 +63,15 @@ const commentFromApi = (comment) => {
   return adaptedComment;
 };
 
-const commentToApi = (comment) => {
-  const adaptedComment = Object.assign(
-      {},
-      comment,
-      {
-        user: Object.assign(
-            {},
-            comment.user,
-            {
-              "avatar_url": comment.user.avatarUrl,
-              "is_pro": comment.user.isPro
-            }),
-      }
-  );
-
-  delete adaptedComment.user.avatarUrl;
-  delete adaptedComment.user.isPro;
-
-  return adaptedComment;
-};
-
 const Adapter = {
   OFFER: {
     fromApi: offerFromApi,
-    toApi: offerToApi
   },
   USER: {
     fromApi: userFromApi,
   },
   REVIEW: {
     fromApi: commentFromApi,
-    toApi: commentToApi,
   }
 };
 
