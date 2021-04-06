@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../header/header.jsx';
@@ -16,7 +16,10 @@ const Offer = (props) => {
   const {offers, allOffers, nearOffers} = useSelector((state) => state.OFFERS);
   const {authorizationStatus} = useSelector((state) => state.USER);
   const offerId = parseInt(id, 10);
-  let offer = offers.find((item) => item.id === offerId);
+  let offer = useMemo(
+      () => offers.find((item) => item.id === offerId),
+      [offers, offerId]
+  );
   const inBookmarksInitialState = offer ? offer.isFavorite : false;
   const dispatch = useDispatch();
 

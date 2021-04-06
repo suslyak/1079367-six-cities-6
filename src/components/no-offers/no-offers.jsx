@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 
 const NoOffers = (props) => {
   const {city} = props;
+
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">

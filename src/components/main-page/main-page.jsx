@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header from '../header/header.jsx';
 import Sorting from '../sorting/sorting.jsx';
@@ -13,7 +13,10 @@ import {fetchOffersList} from '../../store/api-actions';
 const MainPage = () => {
   const {city} = useSelector((state) => state.CITY);
   const {allOffers, isOffersLoaded} = useSelector((state) => state.OFFERS);
-  const offers = allOffers.filter((offer) => offer.city.name === city.name);
+  const offers = useMemo(
+      () => allOffers.filter((offer) => offer.city.name === city.name),
+      [allOffers, city]
+  );
 
   const dispatch = useDispatch();
 
