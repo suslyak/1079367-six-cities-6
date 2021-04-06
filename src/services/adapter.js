@@ -1,4 +1,4 @@
-const offerFromApi = (offer) => {
+const adaptOfferFromApi = (offer) => {
   const adaptedOffer = Object.assign(
       {},
       offer,
@@ -26,7 +26,7 @@ const offerFromApi = (offer) => {
   return adaptedOffer;
 };
 
-const userFromApi = (user) => {
+const adaptUserFromApi = (user) => {
   const adaptedUser = Object.assign(
       {},
       user,
@@ -42,7 +42,7 @@ const userFromApi = (user) => {
   return adaptedUser;
 };
 
-const commentFromApi = (comment) => {
+const adaptCommentFromApi = (comment) => {
   const adaptedComment = Object.assign(
       {},
       comment,
@@ -65,13 +65,13 @@ const commentFromApi = (comment) => {
 
 const Adapter = {
   OFFER: {
-    fromApi: offerFromApi,
+    fromApi: adaptOfferFromApi,
   },
   USER: {
-    fromApi: userFromApi,
+    fromApi: adaptUserFromApi,
   },
   REVIEW: {
-    fromApi: commentFromApi,
+    fromApi: adaptCommentFromApi,
   }
 };
 
