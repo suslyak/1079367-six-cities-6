@@ -105,6 +105,31 @@ export const AppRoute = {
   FAVORITES: `/favorites`,
 };
 
-export const COMMENT_MIN_CHARACTERS = 50;
-export const COMMENT_MAX_CHARACTERS = 300;
 export const API_ERROR_COLOR = `#ff7171`;
+
+export const DefaultCardImageSize = {
+  FAVORITES: {width: 150, height: 110},
+  REGULAR: {width: 260, height: 200}
+};
+
+export const MAP_ZOOM = 12;
+export const MAP_ICON_SIZE = [27, 39];
+
+export const MapIcon = {
+  REGULAR: `./img/pin.svg`,
+  ACTIVE: `./img/pin-active.svg`
+};
+
+export const NEAR_OFFERS_MAX_ON_PAGE = 3;
+export const OFFER_PICTURES_MAX_ON_PAGE = 6;
+
+export const MAX_REVIEWS_ON_PAGE = 10;
+
+export const MAX_COMMENT_LENGTH = 300;
+export const MIN_COMMENT_LENGTH = 50;
+
+export const HttpCode = {
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404
+};
+

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card';
 import {fetchNearOffersList} from "../../store/api-actions";
-import {PropValidation} from '../../const';
+import {PropValidation, NEAR_OFFERS_MAX_ON_PAGE} from '../../const';
 import {nanoid} from 'nanoid';
 
 const NearOffersList = (props) => {
@@ -19,7 +19,7 @@ const NearOffersList = (props) => {
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {nearOffers.slice(0, 3).map((offer) =>
+        {nearOffers.slice(0, NEAR_OFFERS_MAX_ON_PAGE).map((offer) =>
           <PlaceCard
             onCardMouseOver={() => {}}
             key={nanoid(10)}

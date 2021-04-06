@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 
-import {PropValidation} from '../../const.js';
+import {PropValidation, MAP_ZOOM, MAP_ICON_SIZE, MapIcon} from '../../const.js';
 
 import "leaflet/dist/leaflet.css";
 
@@ -13,13 +13,13 @@ const Map = (props) => {
   const mapRef = useRef();
   const offerToHighligtID = currentOffer ? currentOffer.id : mouseHoverOffer;
   const customPinIcon = leaflet.icon({
-    iconUrl: `./img/pin.svg`,
-    iconSize: [27, 39]
+    iconUrl: MapIcon.REGULAR,
+    iconSize: MAP_ICON_SIZE
   });
 
   const customActivePinIcon = leaflet.icon({
-    iconUrl: `./img/pin-active.svg`,
-    iconSize: [27, 39]
+    iconUrl: MapIcon.ACTIVE,
+    iconSize: MAP_ICON_SIZE
   });
 
   const points = offers.map((offer) => ({
@@ -35,7 +35,7 @@ const Map = (props) => {
         lat: city.location.latitude,
         lng: city.location.longitude
       },
-      zoom: 12,
+      zoom: MAP_ZOOM,
       scrollWheelZoom: scrollZoom,
       marker: true
     });

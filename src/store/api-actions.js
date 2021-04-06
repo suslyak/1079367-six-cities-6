@@ -14,7 +14,8 @@ import {
 
 import Adapter from '../services/adapter';
 
-import {AuthorizationStatus, emptyUser, APIRoute, AppRoute} from "../const";
+import {AuthorizationStatus, emptyUser, APIRoute, AppRoute, HttpCode} from "../const";
+
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
@@ -29,7 +30,7 @@ export const fetchOffer = (offerId) => (dispatch, _getState, api) => (
       dispatch(fillOffersList(Adapter.OFFER.fromApi(data)));
     })
     .catch((error) => {
-      if (error.response.status === 404) {
+      if (error.response.status === HttpCode.NOT_FOUND) {
         dispatch(redirectToRoute(AppRoute.NOT_FOUND));
       }
     })
@@ -79,7 +80,7 @@ export const postReview = ({id, reviewFormData}, onSuccess = () => {}, onFail = 
       onSuccess();
     })
     .catch((error) => {
-      if (error.response.status === 401) {
+      if (error.response.status === HttpCode.UNAUTHORIZED) {
         dispatch(redirectToRoute(AppRoute.LOGIN));
       }
       onFail(`${error.response.data.error} (${error.response.statusText})`);
@@ -93,7 +94,7 @@ export const changeFavorite = ({id, status}) => (dispatch, _getState, api) => (
     dispatch(updateFavorites(Adapter.OFFER.fromApi(data)));
   })
   .catch((error) => {
-    if (error.response.status === 401) {
+    if (error.response.status === HttpCode.UNAUTHORIZED) {
       dispatch(redirectToRoute(AppRoute.LOGIN));
     }
   })

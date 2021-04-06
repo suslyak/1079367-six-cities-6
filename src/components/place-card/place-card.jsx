@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {PropValidation} from '../../const.js';
+import {PropValidation, DefaultCardImageSize} from '../../const.js';
 import {changeFavorite} from '../../store/api-actions';
 
 const PlaceCard = (props) => {
@@ -10,9 +10,9 @@ const PlaceCard = (props) => {
     offer,
     specifiedArticleClass = ``,
     specifiedInfoClass = ``,
-    specifiedImageWrapperClas = ``,
+    specifiedImageWrapperClass = ``,
     onCardMouseOver,
-    imageSize = {width: 260, height: 200}
+    imageSize = DefaultCardImageSize.REGULAR
   } = props;
 
 
@@ -34,7 +34,7 @@ const PlaceCard = (props) => {
         </div>
         : ``
       }
-      <div className={`${specifiedImageWrapperClas} place-card__image-wrapper`}>
+      <div className={`${specifiedImageWrapperClass} place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={offer.previewImage} width={imageSize.width} height={imageSize.height} alt="Place image" />
         </a>
@@ -85,7 +85,7 @@ PlaceCard.propTypes = {
   offer: PropValidation.OFFER,
   specifiedArticleClass: PropTypes.string,
   specifiedInfoClass: PropTypes.string,
-  specifiedImageWrapperClas: PropTypes.string,
+  specifiedImageWrapperClass: PropTypes.string,
   onCardMouseOver: PropTypes.func,
   imageSize: PropTypes.shape({width: PropTypes.number, height: PropTypes.number})
 };

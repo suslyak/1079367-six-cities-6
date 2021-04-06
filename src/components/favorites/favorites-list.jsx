@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PlaceCard from '../place-card/place-card.jsx';
-import {PropValidation} from '../../const.js';
+import {PropValidation, DefaultCardImageSize} from '../../const.js';
 import {nanoid} from 'nanoid';
 
 const FavoritesList = (props) => {
@@ -13,10 +13,10 @@ const FavoritesList = (props) => {
         onCardMouseOver={() => {}}
         key={nanoid(10)}
         offer={offer}
-        specifiedArticleClass={`cities__place-card`}
-        specifiedImageWrapperClass={`cities__image-wrapper`}
+        specifiedArticleClass={`favorites__card`}
+        specifiedImageWrapperClass={`favorites__image-wrapper`}
         specifiedInfoClass={`favorites__card-info`}
-        imageSize={{width: 150, height: 110}}
+        imageSize={DefaultCardImageSize.FAVORITES}
       />
     )
   );

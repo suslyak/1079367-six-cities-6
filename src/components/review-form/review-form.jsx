@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {postReview} from '../../store/api-actions';
-import {COMMENT_MIN_CHARACTERS, API_ERROR_COLOR} from '../../const';
+import {API_ERROR_COLOR, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH} from '../../const';
 
 const ReviewForm = (props) => {
   const {offerId} = props;
@@ -24,7 +24,7 @@ const ReviewForm = (props) => {
 
   const handleFieldChange = (evt) => {
     const {name, value} = evt.target;
-    const newStateValue = value.slice(0, 300);
+    const newStateValue = value.slice(0, MAX_COMMENT_LENGTH);
 
     setReviewForm({...reviewForm, [name]: newStateValue});
     commentTextArea.current.value = newStateValue;
@@ -104,7 +104,7 @@ const ReviewForm = (props) => {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled = {!reviewForm.rating || formIsSending || ((reviewForm.comment.length < COMMENT_MIN_CHARACTERS))}
+          disabled = {!reviewForm.rating || formIsSending || ((reviewForm.comment.length < MIN_COMMENT_LENGTH))}
         >
           {formIsSending ? `Sending..` : `Submit`}
         </button>

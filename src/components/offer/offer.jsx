@@ -9,7 +9,7 @@ import NearOffers from '../near-offers-list/near-offers-list.jsx';
 import {fetchOffer, changeFavorite} from "../../store/api-actions";
 import {fillOffersList} from '../../store/action';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, OFFER_PICTURES_MAX_ON_PAGE, NEAR_OFFERS_MAX_ON_PAGE} from '../../const';
 import {nanoid} from 'nanoid';
 
 const Offer = (props) => {
@@ -71,7 +71,7 @@ const Offer = (props) => {
             ? <>
               <div className="property__gallery-container container">
                 <div className="property__gallery">
-                  {offer.images.slice(0, 6).map((offerImage) =>
+                  {offer.images.slice(0, OFFER_PICTURES_MAX_ON_PAGE).map((offerImage) =>
                     <div className="property__image-wrapper" key={nanoid(10)}>
                       <img className="property__image" src={offerImage} alt="Place image" />
                     </div>)
@@ -168,7 +168,7 @@ const Offer = (props) => {
           </div>
           <Map
             city={offer.city}
-            offers={offers.concat(nearOffers).slice(0, 4)}
+            offers={offers.concat(nearOffers).slice(0, NEAR_OFFERS_MAX_ON_PAGE + 1)}
             containerSpecifiedClass={`property__map`}
             currentOffer={offer}
             scrollZoom={false}
